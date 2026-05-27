@@ -88,13 +88,13 @@
 
                 {{-- Login Button --}}
                 <button type="submit" 
-                    class="w-full bg-primary hover:bg-primary-hover active:bg-primary-dark text-white font-semibold text-[14px] py-4 rounded-2xl shadow-sm transition-all duration-200 transform active:scale-[0.98]">
+                    class="w-full bg-[#87B4B8] hover:bg-[#76a2a6] active:bg-[#5A8A8E] text-white font-bold text-[15px] py-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 active:translate-y-0">
                     Login Now
                 </button>
 
                 {{-- Forgot Password --}}
                 <div class="text-center mt-5">
-                    <a href="#" class="text-[13px] text-slate-dark font-semibold hover:text-primary transition">
+                    <a href="#" class="text-[13px] text-slate-dark font-semibold hover:text-[#87B4B8] transition-all inline-block hover:scale-105">
                         Forgot password?
                     </a>
                 </div>
@@ -106,7 +106,7 @@
         <div class="w-full text-center pb-10 pt-6">
             <p class="text-[12px] text-gray-400 font-normal">
                 Kamu belum punya akun? 
-                <a href="{{ url('/register') }}" class="text-slate-dark font-bold hover:text-primary transition">Sign up now</a>
+                <a href="{{ url('/register') }}" class="text-slate-dark font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Sign up now</a>
             </p>
         </div>
 

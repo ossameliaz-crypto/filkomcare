@@ -7,7 +7,7 @@
     
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-6 flex items-center gap-4 z-10 bg-[#f8f9fa]">
-        <a href="{{ route('profile.index') }}" class="text-[#1a1a2e] hover:text-[#87B4B8] transition">
+        <a href="{{ route('profile.index') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         </a>
         <h1 class="text-[#1a1a2e] text-[20px] font-bold">Edit Profile</h1>
@@ -35,7 +35,7 @@
             <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[#3d4a5e] text-[15px] font-medium">Email</label>
-                    <button @click="openModal('email', 'Email', '{{ Auth::user()->email }}')" class="text-[#0ea5e9] text-[13px] font-bold hover:text-blue-600">Edit</button>
+                    <button @click="openModal('email', 'Email', '{{ Auth::user()->email }}')" class="text-[#0ea5e9] text-[13px] font-bold transition-colors duration-300 hover:text-blue-700">Edit</button>
                 </div>
                 <div class="text-gray-400 text-[14px]">{{ Auth::user()->email }}</div>
             </div>
@@ -44,7 +44,7 @@
             <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[#3d4a5e] text-[15px] font-medium">Username</label>
-                    <button @click="openModal('name', 'Username', '{{ Auth::user()->name }}')" class="text-[#0ea5e9] text-[13px] font-bold hover:text-blue-600">Edit</button>
+                    <button @click="openModal('name', 'Username', '{{ Auth::user()->name }}')" class="text-[#0ea5e9] text-[13px] font-bold transition-colors duration-300 hover:text-blue-700">Edit</button>
                 </div>
                 <div class="text-gray-400 text-[14px]">{{ Auth::user()->name }}</div>
             </div>
@@ -53,7 +53,7 @@
             <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[#3d4a5e] text-[15px] font-medium">Phone number</label>
-                    <button @click="openModal('phone_number', 'Phone number', '{{ Auth::user()->phone_number }}')" class="text-[#0ea5e9] text-[13px] font-bold hover:text-blue-600">
+                    <button @click="openModal('phone_number', 'Phone number', '{{ Auth::user()->phone_number }}')" class="text-[#0ea5e9] text-[13px] font-bold transition-colors duration-300 hover:text-blue-700">
                         {{ Auth::user()->phone_number ? 'Edit' : 'Add' }}
                     </button>
                 </div>
@@ -64,7 +64,7 @@
             <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[#3d4a5e] text-[15px] font-medium">NIM</label>
-                    <button @click="openModal('nim', 'NIM', '{{ Auth::user()->nim }}')" class="text-[#0ea5e9] text-[13px] font-bold hover:text-blue-600">
+                    <button @click="openModal('nim', 'NIM', '{{ Auth::user()->nim }}')" class="text-[#0ea5e9] text-[13px] font-bold transition-colors duration-300 hover:text-blue-700">
                         {{ Auth::user()->nim ? 'Edit' : 'Add' }}
                     </button>
                 </div>
@@ -75,7 +75,7 @@
             <div class="flex flex-col gap-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[#3d4a5e] text-[15px] font-medium">Program Studi</label>
-                    <button @click="openModal('department', 'Program Studi', '{{ Auth::user()->department }}')" class="text-[#0ea5e9] text-[13px] font-bold hover:text-blue-600">
+                    <button @click="openModal('department', 'Program Studi', '{{ Auth::user()->department }}')" class="text-[#0ea5e9] text-[13px] font-bold transition-colors duration-300 hover:text-blue-700">
                         {{ Auth::user()->department ? 'Edit' : 'Add' }}
                     </button>
                 </div>
@@ -84,47 +84,7 @@
 
         </div>
 
-        {{-- Change Password Section --}}
-        <h2 class="text-[#1a1a2e] text-[16px] font-bold mb-4 mt-8">Ubah Kata Sandi</h2>
 
-        <div class="bg-white rounded-[24px] shadow-sm p-6">
-            <form action="{{ route('profile.changePassword') }}" method="POST">
-                @csrf
-
-                <div class="flex flex-col gap-5">
-                    {{-- Current Password --}}
-                    <div>
-                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Password Lama</label>
-                        <input type="password" name="current_password" required placeholder="Masukkan password lama" 
-                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
-                        @error('current_password')
-                        <p class="text-red-500 text-[11px] mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- New Password --}}
-                    <div>
-                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Password Baru</label>
-                        <input type="password" name="new_password" required placeholder="Minimal 8 karakter" 
-                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
-                        @error('new_password')
-                        <p class="text-red-500 text-[11px] mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Confirm Password --}}
-                    <div>
-                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Konfirmasi Password Baru</label>
-                        <input type="password" name="new_password_confirmation" required placeholder="Ulangi password baru" 
-                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
-                    </div>
-
-                    <button type="submit" class="w-full bg-[#87B4B8] text-white font-bold py-3.5 rounded-xl text-[14px] hover:bg-[#6ca3a8] transition shadow-[0_4px_12px_rgba(135,180,184,0.3)]">
-                        Ubah Kata Sandi
-                    </button>
-                </div>
-            </form>
-        </div>
     </div>
 
     {{-- Edit Modal Overlay --}}
@@ -148,14 +108,14 @@
                         <input :type="editFieldType" 
                                :name="editFieldName" 
                                x-model="editFieldValue" 
-                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 focus:outline-none focus:border-[#87B4B8] transition">
+                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
                     </template>
                     
                     <template x-if="editFieldName === 'department'">
                         <div class="relative">
                             <select :name="editFieldName" 
                                     x-model="editFieldValue" 
-                                    class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 pr-10 focus:outline-none focus:border-[#87B4B8] transition appearance-none">
+                                    class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 pr-10 appearance-none transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
                                 <option value="" disabled>Pilih Program Studi</option>
                                 <option value="Teknik Informatika">Teknik Informatika</option>
                                 <option value="Sistem Informasi">Sistem Informasi</option>
@@ -173,8 +133,8 @@
                 </div>
 
                 <div class="flex gap-3">
-                    <button type="button" @click="closeModal()" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-500 font-bold hover:bg-gray-200 transition">Batal</button>
-                    <button type="submit" class="flex-1 py-3 rounded-xl bg-[#87B4B8] text-white font-bold hover:bg-[#6ca3a8] transition shadow-[0_4px_12px_rgba(135,180,184,0.3)]">Simpan</button>
+                    <button type="button" @click="closeModal()" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-500 font-bold transition-all duration-300 hover:bg-gray-200 hover:shadow-sm transform hover:-translate-y-0.5 active:scale-95">Batal</button>
+                    <button type="submit" class="flex-1 py-3 rounded-xl bg-[#87B4B8] text-white font-bold hover:bg-[#6ca3a8] transition-all duration-300 shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 active:scale-95">Simpan</button>
                 </div>
             </form>
         </div>

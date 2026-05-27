@@ -7,7 +7,7 @@
     
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-6 flex items-center gap-4 z-10 bg-white border-b border-gray-100 shadow-sm">
-        <a href="{{ route('profile.index') }}" class="text-[#1a1a2e] hover:text-[#87B4B8] transition">
+        <a href="{{ route('profile.index') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         </a>
         <h1 class="text-[#1a1a2e] text-[20px] font-bold">Pengaturan</h1>
@@ -29,11 +29,11 @@
     <div class="flex-1 overflow-y-auto px-6 pt-6 pb-20">
         
         <h2 class="text-[#3d4a5e] text-[14px] font-bold mb-3 uppercase tracking-wider">Aplikasi</h2>
-        <div class="bg-white rounded-[24px] shadow-sm p-2 flex flex-col mb-6">
+        <div class="bg-white rounded-[24px] shadow-sm p-2 flex flex-col mb-6 transition-shadow duration-300 hover:shadow-md">
             
             {{-- Bahasa --}}
-            <button @click="langModalOpen = true" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition rounded-xl">
-                <div class="flex flex-col">
+            <button @click="langModalOpen = true" class="flex items-center justify-between p-4 border-b border-gray-100 transition-all duration-300 hover:bg-gray-50 hover:shadow-sm transform hover:-translate-y-0.5 active:scale-95 rounded-xl">
+                <div class="flex flex-col text-left">
                     <span class="text-[#3d4a5e] text-[15px] font-bold">Bahasa</span>
                     <span class="text-gray-400 text-[12px]" x-text="selectedLang"></span>
                 </div>
@@ -41,8 +41,8 @@
             </button>
             
             {{-- Tema --}}
-            <button @click="themeModalOpen = true" class="flex items-center justify-between p-4 hover:bg-gray-50 transition rounded-xl">
-                <div class="flex flex-col">
+            <button @click="themeModalOpen = true" class="flex items-center justify-between p-4 transition-all duration-300 hover:bg-gray-50 hover:shadow-sm transform hover:-translate-y-0.5 active:scale-95 rounded-xl mt-1">
+                <div class="flex flex-col text-left">
                     <span class="text-[#3d4a5e] text-[15px] font-bold">Tema</span>
                     <span class="text-gray-400 text-[12px]" x-text="selectedTheme"></span>
                 </div>
@@ -52,11 +52,11 @@
         </div>
 
         <h2 class="text-[#3d4a5e] text-[14px] font-bold mb-3 uppercase tracking-wider">Zona Berbahaya</h2>
-        <div class="bg-white rounded-[24px] shadow-sm p-4 flex flex-col mb-6 border border-red-100">
+        <div class="bg-white rounded-[24px] shadow-sm p-4 flex flex-col mb-6 border border-red-100 transition-shadow duration-300 hover:shadow-md">
             <p class="text-gray-500 text-[13px] mb-4">
                 Menghapus akun akan menghilangkan seluruh riwayat konsultasi dan data diri Anda secara permanen. Tindakan ini tidak dapat dibatalkan.
             </p>
-            <button @click="deleteModalOpen = true" class="w-full bg-[#fde9eb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[14px] hover:bg-[#fad8db] transition">
+            <button @click="deleteModalOpen = true" class="w-full bg-[#fde9eb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[14px] transition-all duration-300 hover:bg-[#fad8db] shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                 Hapus Akun Permanen
             </button>
         </div>
@@ -84,7 +84,7 @@
             <div class="flex flex-col gap-3">
                 <template x-for="lang in languages" :key="lang">
                     <button @click="selectedLang = lang; langModalOpen = false; saveSetting('lang', lang)" 
-                            class="flex items-center justify-between p-4 border rounded-xl transition"
+                            class="flex items-center justify-between p-4 border rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 hover:shadow-sm"
                             :class="selectedLang === lang ? 'border-[#87B4B8] bg-[#f0f7f8]' : 'border-gray-200'">
                         <span class="text-[#3d4a5e] text-[14px] font-medium" x-text="lang"></span>
                         <div class="w-5 h-5 rounded-full border flex items-center justify-center"
@@ -113,7 +113,7 @@
             <div class="flex flex-col gap-3">
                 <template x-for="theme in themes" :key="theme">
                     <button @click="selectedTheme = theme; themeModalOpen = false; saveSetting('theme', theme)"
-                            class="flex items-center justify-between p-4 border rounded-xl transition"
+                            class="flex items-center justify-between p-4 border rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 hover:shadow-sm"
                             :class="selectedTheme === theme ? 'border-[#87B4B8] bg-[#f0f7f8]' : 'border-gray-200'">
                         <span class="text-[#3d4a5e] text-[14px] font-medium" x-text="theme"></span>
                         <div class="w-5 h-5 rounded-full border flex items-center justify-center"
@@ -146,11 +146,11 @@
                 @csrf
                 <div class="mb-5">
                     <input type="password" name="confirm_password" required placeholder="Masukkan password kamu" 
-                           class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-red-300 transition">
+                           class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] transition-all duration-300 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-400/20 focus:bg-white hover:border-red-200">
                 </div>
                 <div class="flex gap-3">
-                    <button type="button" @click="deleteModalOpen = false" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-500 font-bold hover:bg-gray-200 transition">Batal</button>
-                    <button type="submit" class="flex-1 py-3 rounded-xl bg-[#df4a56] text-white font-bold hover:bg-[#c0394a] transition">Hapus</button>
+                    <button type="button" @click="deleteModalOpen = false" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-500 font-bold transition-all duration-300 hover:bg-gray-200 hover:shadow-sm transform hover:-translate-y-0.5 active:scale-95">Batal</button>
+                    <button type="submit" class="flex-1 py-3 rounded-xl bg-[#df4a56] text-white font-bold transition-all duration-300 hover:bg-[#c0394a] shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">Hapus</button>
                 </div>
             </form>
         </div>

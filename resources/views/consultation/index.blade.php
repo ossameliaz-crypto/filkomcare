@@ -100,16 +100,16 @@
             <div class="flex justify-between items-center mb-3">
                 <span class="text-[#64748b] text-[13px] font-medium">Pilih berdasarkan jadwal</span>
                 <div class="relative w-5 h-5 flex items-center justify-center">
-                    <input type="date" x-model="selectedFullDate" @change="updateDatesFromPicker($event.target.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" style="-webkit-appearance: none;">
-                    <svg class="text-[#a1c4c8] relative z-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <input type="date" x-model="selectedFullDate" @change="updateDatesFromPicker($event.target.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 hover:scale-110 transition-transform" style="-webkit-appearance: none;">
+                    <svg class="text-[#a1c4c8] relative z-0 transition-all hover:scale-110" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 </div>
             </div>
             
-            <div class="flex overflow-x-auto gap-3 hide-scrollbar -mx-6 px-6 pb-2">
+            <div class="flex overflow-x-auto gap-3 hide-scrollbar -mx-6 px-6 pb-4 pt-1">
                 <template x-for="item in dates" :key="item.date">
                     <button @click="selectedDate = item.date" 
-                            :class="{'border-[#5b687b] bg-[#f3ede3] text-[#5b687b]': selectedDate === item.date, 'border-transparent bg-[#f8f9fa] text-[#cbd5e1]': selectedDate !== item.date}"
-                            class="shrink-0 flex flex-col items-center justify-center w-[55px] h-[75px] rounded-2xl border transition">
+                            :class="{'border-[#5b687b] bg-[#f3ede3] text-[#5b687b] shadow-md -translate-y-1': selectedDate === item.date, 'border-transparent bg-[#f8f9fa] text-[#cbd5e1] hover:bg-gray-100': selectedDate !== item.date}"
+                            class="shrink-0 flex flex-col items-center justify-center w-[55px] h-[75px] rounded-2xl border transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md">
                         <span class="text-[11px] mb-1 font-medium" :class="{'text-[#5b687b]': selectedDate === item.date, 'text-[#cbd5e1]': selectedDate !== item.date}" x-text="item.day"></span>
                         <div class="w-[12px] h-[1.5px] mb-1 rounded-full" :class="{'bg-[#5b687b]': selectedDate === item.date, 'bg-[#cbd5e1]': selectedDate !== item.date}"></div>
                         <span class="text-[20px] font-bold" :class="{'text-[#5b687b]': selectedDate === item.date, 'text-[#cbd5e1]': selectedDate !== item.date}" x-text="item.date"></span>
@@ -121,43 +121,43 @@
         {{-- Waktu Konseling --}}
         <div class="mb-6">
             <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Pilih waktu konseling</span>
-            <button @click="timeModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left">
-                <span class="text-[#a1abb9] text-[13px]" x-text="selectedTime"></span>
-                <svg class="text-[#a1abb9]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <button @click="timeModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
+                <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="selectedTime"></span>
+                <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
         </div>
 
         {{-- Pilih Layanan --}}
         <div class="mb-6">
             <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Pilih layanan</span>
-            <button @click="serviceModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left">
-                <span class="text-[#a1abb9] text-[13px]" x-text="tab === 'online' ? selectedOnlineService : selectedOfflineService"></span>
-                <svg class="text-[#a1abb9]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <button @click="serviceModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
+                <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="tab === 'online' ? selectedOnlineService : selectedOfflineService"></span>
+                <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
         </div>
 
         {{-- Topik Konsultasi --}}
         <div class="mb-6">
             <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Topik Konsultasi</span>
-            <input type="text" name="topic" required placeholder="Contoh: Masalah Akademik" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] focus:outline-none focus:border-[#bce8ee]">
+            <input type="text" name="topic" required placeholder="Contoh: Masalah Akademik" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
         {{-- Deskripsi Singkat --}}
         <div class="mb-8">
             <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Deskripsi Singkat</span>
-            <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] focus:outline-none focus:border-[#bce8ee]">
+            <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
         {{-- Checkbox Persetujuan --}}
         <div class="mb-6 flex items-start gap-3">
-            <input type="checkbox" id="agreement" name="agreement" required class="mt-1 w-4 h-4 text-[#87B4B8] bg-white border-gray-300 rounded focus:ring-[#87B4B8]">
-            <label for="agreement" class="text-[12px] text-gray-500 leading-relaxed">
+            <input type="checkbox" id="agreement" name="agreement" required class="mt-1 w-4 h-4 text-[#87B4B8] bg-white border-gray-300 rounded focus:ring-2 focus:ring-[#87B4B8]/30 transition-shadow cursor-pointer hover:shadow-sm">
+            <label for="agreement" class="text-[12px] text-gray-500 leading-relaxed cursor-pointer hover:text-gray-700 transition-colors">
                 Saya menyetujui persyaratan layanan dan memahami bahwa sesi konseling hanya diproses pada <strong>Senin - Jumat, 09.00 - 17.00 WIB</strong>.
             </label>
         </div>
 
         {{-- Kirim Button --}}
-        <button type="submit" class="w-full bg-[#a1c4c8] text-white font-bold text-[14px] py-4 rounded-xl mb-4 shadow-sm hover:bg-[#8eb2b6] transition">
+        <button type="submit" class="w-full bg-[#a1c4c8] text-white font-bold text-[14px] py-4 rounded-xl mb-4 shadow-sm hover:shadow-lg hover:bg-[#8eb2b6] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
             Kirim
         </button>
 

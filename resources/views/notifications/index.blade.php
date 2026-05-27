@@ -8,7 +8,7 @@
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-4 flex items-center justify-between z-10 bg-white">
         <div class="flex items-center gap-4">
-            <a href="{{ route('dashboard') }}" class="text-[#1a1a2e] hover:text-[#87B4B8] transition">
+            <a href="{{ route('dashboard') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
             <h1 class="text-[#1a1a2e] text-[20px] font-bold">Notification</h1>
@@ -39,7 +39,7 @@
         @if($notifications->count() > 0)
             <div class="flex flex-col gap-3">
                 @foreach($notifications as $notif)
-                <div class="bg-white rounded-2xl px-4 py-4 flex items-start gap-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] {{ !$notif->is_read ? 'border border-[#d2e8eb]' : 'border border-gray-100' }}">
+                <div class="bg-white rounded-2xl px-4 py-4 flex items-start gap-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] {{ !$notif->is_read ? 'border border-[#d2e8eb]' : 'border border-gray-100' }} transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer hover:border-[#87B4B8]/50">
                     {{-- Bell Icon --}}
                     <div class="w-10 h-10 rounded-full {{ !$notif->is_read ? 'bg-[#ddf0f4]' : 'bg-gray-100' }} flex items-center justify-center shrink-0 mt-0.5">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{ !$notif->is_read ? '#5c9dab' : '#94a3b8' }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

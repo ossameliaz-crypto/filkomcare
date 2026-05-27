@@ -14,15 +14,15 @@
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <svg class="text-[#3d4a5e]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
-            <input type="text" x-model="search" placeholder="Cari Riwayat Konsultasi..." class="w-full bg-[#b8d6da] bg-opacity-70 text-[#3d4a5e] placeholder-[#5c6d7a] rounded-xl py-3 pl-11 pr-4 text-[13px] font-medium focus:outline-none transition">
+            <input type="text" x-model="search" placeholder="Cari Riwayat Konsultasi..." class="w-full bg-[#b8d6da] bg-opacity-70 text-[#3d4a5e] placeholder-[#5c6d7a] rounded-xl py-3 pl-11 pr-4 text-[13px] font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#87B4B8]/40 focus:bg-[#d8eff2]">
         </div>
 
         {{-- Filter Chips --}}
         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             <template x-for="chip in ['Semua', 'Menunggu', 'Diproses', 'Selesai']">
                 <button @click="filter = chip" 
-                        :class="filter === chip ? 'bg-[#87B4B8] text-white' : 'bg-[#fcfcfc] text-[#475569] border border-gray-100'"
-                        class="px-5 py-2 rounded-full text-[13px] font-medium whitespace-nowrap transition shadow-sm">
+                        :class="filter === chip ? 'bg-[#87B4B8] text-white shadow-md' : 'bg-[#fcfcfc] text-[#475569] border border-gray-100 hover:bg-gray-50'"
+                        class="px-5 py-2 rounded-full text-[13px] font-medium whitespace-nowrap transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                     <span x-text="chip"></span>
                 </button>
             </template>
@@ -37,14 +37,14 @@
         
         {{-- Empty State (No Data Ever or Not Found) --}}
         <div x-show="filteredItems.length === 0" class="flex-1 flex flex-col items-center justify-center pb-20 mt-10" style="display: none;">
-            <img src="{{ asset('images/empty_history.png') }}" alt="Empty State" class="w-[260px] mb-6 object-contain">
+            <img src="{{ asset('images/empty_history.png') }}" alt="Empty State" class="w-[260px] mb-6 object-contain transition-transform duration-500 hover:-translate-y-2">
             <h3 class="text-[#1a1a2e] text-[18px] font-bold text-center leading-tight">Anda belum pernah<br>berkonsultasi</h3>
         </div>
 
         {{-- List --}}
         <div class="flex flex-col gap-4">
             <template x-for="item in filteredItems" :key="item.id">
-                <a :href="'/riwayat/' + item.id" class="block bg-white rounded-[20px] border border-gray-50 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(135,180,184,0.3)] hover:border-[#87B4B8] transition">
+                <a :href="'/riwayat/' + item.id" class="block bg-white rounded-[20px] border border-gray-50 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(135,180,184,0.3)] hover:border-[#87B4B8] transition-all duration-300 transform hover:-translate-y-1 active:scale-[0.98]">
                     
                     {{-- Top Row: ID & Status --}}
                     <div class="flex justify-between items-center mb-2">
@@ -55,7 +55,7 @@
                             'border-[#22c55e] text-[#16a34a] bg-[#f0fdf4]': item.status === 'Selesai',
                             'border-[#3b82f6] text-[#2563eb] bg-[#eff6ff]': item.status === 'Diproses',
                             'border-[#d97706] text-[#d97706] bg-[#fffbeb]': item.status === 'Menunggu'
-                        }" class="border rounded-full px-3 py-1 flex items-center gap-1.5 shadow-sm">
+                        }" class="border rounded-full px-3 py-1 flex items-center gap-1.5 shadow-sm transition-colors duration-300">
                             <span class="w-2.5 h-2.5 rounded-full" :class="{
                                 'bg-[#22c55e]': item.status === 'Selesai',
                                 'bg-[#3b82f6]': item.status === 'Diproses',
@@ -66,7 +66,7 @@
                     </div>
 
                     {{-- Title --}}
-                    <h3 class="text-[#3d4a5e] text-[16px] font-bold mb-4" x-text="item.topic"></h3>
+                    <h3 class="text-[#3d4a5e] text-[16px] font-bold mb-4 group-hover:text-[#87B4B8] transition-colors" x-text="item.topic"></h3>
 
                     {{-- Date --}}
                     <div class="flex items-center gap-2">

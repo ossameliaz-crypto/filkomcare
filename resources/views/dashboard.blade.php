@@ -8,9 +8,9 @@
     <div class="flex-1 overflow-y-auto w-full pb-8">
 
     {{-- ===== Top Header Background ===== --}}
-    <div class="bg-[#5d687c] w-full pt-16 pb-24 px-6 rounded-b-[32px] relative z-10">
+    <div class="bg-[#5d687c] w-full pt-16 pb-16 px-6 rounded-b-[32px] relative z-10">
         {{-- Greeting Row --}}
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-2">
             <h1 class="text-white text-[19px] font-semibold flex items-center gap-2">
                 👋 Hai, {{ explode(' ', Auth::user()->name ?? 'Mahasiswa')[0] }}
             </h1>
@@ -32,9 +32,9 @@
     </div>
 
     {{-- ===== Waktu Layanan Card ===== --}}
-    <div class="px-6 -mt-16 relative z-20 mb-8">
-        <div class="bg-gradient-to-r from-[#d9f2f5] to-[#c4eff5] rounded-2xl p-4 flex items-center gap-4 shadow-sm border border-[#b4e6ec]">
-            <div class="w-12 h-12 rounded-full bg-[#bce8ee] flex items-center justify-center shrink-0">
+    <div class="px-6 -mt-12 relative z-20 mb-8">
+        <div class="bg-gradient-to-r from-[#f7fcfd] to-[#d6f2f5] rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+            <div class="w-12 h-12 rounded-full bg-[#c2ebf0] flex items-center justify-center shrink-0">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3d4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
@@ -62,8 +62,8 @@
         
         <div class="flex gap-4 mb-4">
             {{-- Chat Konseling --}}
-            <div class="flex-1 bg-white border border-[#e2e8f0] rounded-2xl p-4 shadow-sm flex flex-col">
-                <div class="w-10 h-10 rounded-full bg-[#e0f7fa] flex items-center justify-center mb-3">
+            <div class="flex-1 bg-[#f0f9fb] border border-[#bce8ee] rounded-2xl p-4 shadow-sm flex flex-col transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-[#dcf2f5] flex items-center justify-center mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <h3 class="text-[#3d4a5e] font-bold text-[13px] mb-1">Chat Konseling</h3>
@@ -71,8 +71,8 @@
             </div>
             
             {{-- Telepon Konseling --}}
-            <div class="flex-1 bg-white border border-[#e2e8f0] rounded-2xl p-4 shadow-sm flex flex-col">
-                <div class="w-10 h-10 rounded-full bg-[#f3f4f6] flex items-center justify-center mb-3">
+            <div class="flex-1 bg-[#fff8f3] border border-[#f0e3d6] rounded-2xl p-4 shadow-sm flex flex-col transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-[#faefe5] flex items-center justify-center mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </div>
                 <h3 class="text-[#3d4a5e] font-bold text-[13px] mb-1">Telepon Konseling</h3>
@@ -81,7 +81,7 @@
         </div>
 
         {{-- Konsultasi Tatap Muka --}}
-        <div class="bg-[#f1f5f9] border border-[#cbd5e1] rounded-2xl p-4 shadow-sm flex items-center justify-between relative overflow-hidden">
+        <div class="bg-[#eef1f5] border border-[#d6dce3] rounded-2xl p-4 shadow-sm flex items-center justify-between relative overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer">
             <div class="relative z-10 w-[60%]">
                 <h3 class="text-[#3d4a5e] font-bold text-[14px] mb-1">Konsultasi Tatap Muka</h3>
                 <p class="text-[11px] text-gray-600 leading-tight">Buat janji konseling langsung di kampus</p>
@@ -91,7 +91,7 @@
     </div>
 
     {{-- ===== Pilihan Konselor Terbaik ===== --}}
-    <div class="mb-8">
+    <div class="mb-10">
         <h2 class="px-6 text-[#1a1a2e] text-[16px] font-bold mb-4">Pilihan Konselor Terbaik</h2>
         
         <div class="px-6 relative overflow-hidden">
@@ -157,42 +157,43 @@
 
     {{-- ===== 3 Langkah Mudah ===== --}}
     <div class="mb-10">
-        <h2 class="px-6 text-[#1a1a2e] text-[15px] font-bold text-center mb-4 leading-tight">3 Langkah Mudah Menjadwalkan<br>Konseling Pertamamu</h2>
+        <h2 class="px-6 text-[#1a1a2e] text-[16px] font-bold mb-6 text-center leading-snug">3 Langkah Mudah Menjadwalkan<br>Konseling Pertamamu</h2>
         
-        <div class="flex overflow-x-auto gap-4 px-6 snap-x hide-scrollbar pb-4">
-            <div class="snap-center shrink-0 w-[140px] bg-[#f8efe8] rounded-3xl p-4 flex flex-col items-center text-center">
-                <h3 class="text-[#3d4a5e] font-bold text-[12px] mb-2 min-h-[36px]">Sadari masalah utamamu</h3>
-                <img src="{{ asset('images/home_step1.png') }}" class="w-[80px] h-[80px] object-contain" alt="Step 1">
+        <div class="grid grid-cols-3 gap-3 px-6">
+            <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Sadari masalah utamamu</h3>
+                <img src="{{ asset('images/home_step1.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 1">
             </div>
-            <div class="snap-center shrink-0 w-[140px] bg-[#f3efe8] rounded-3xl p-4 flex flex-col items-center text-center">
-                <h3 class="text-[#3d4a5e] font-bold text-[12px] mb-2 min-h-[36px]">Pilih layanan yang sesuai</h3>
-                <img src="{{ asset('images/home_step2.png') }}" class="w-[80px] h-[80px] object-contain" alt="Step 2">
+            <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Pilih layanan yang sesuai</h3>
+                <img src="{{ asset('images/home_step2.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 2">
             </div>
-            <div class="snap-center shrink-0 w-[140px] bg-[#f3ede3] rounded-3xl p-4 flex flex-col items-center text-center">
-                <h3 class="text-[#3d4a5e] font-bold text-[12px] mb-2 min-h-[36px]">Jadwalkan sesi konsultasi</h3>
-                <img src="{{ asset('images/home_step3.png') }}" class="w-[80px] h-[80px] object-contain" alt="Step 3">
+            <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Jadwalkan sesi konsultasi</h3>
+                <img src="{{ asset('images/home_step3.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 3">
             </div>
         </div>
     </div>
 
     {{-- ===== Butuh bantuan darurat? ===== --}}
-    <div class="px-6 mb-16">
-        <div class="bg-[#5d687c] rounded-3xl p-5 shadow-sm relative overflow-hidden flex flex-col min-h-[170px]">
-            {{-- Text --}}
-            <div class="relative z-10">
-                <h2 class="text-white text-[17px] font-bold mb-1 leading-tight">Butuh bantuan darurat?</h2>
-                <p class="text-[#e2e8f0] text-[13px]">Dapatkan bantuan sekarang!</p>
-            </div>
-            
-            {{-- Button --}}
-            <div class="relative z-10 flex justify-end mt-auto pt-6">
-                <button class="bg-[#bce8ee] text-[#3d4a5e] font-bold text-[14px] py-2 px-6 rounded-xl shadow-sm hover:bg-[#a6dce4] transition">
-                    Bantu Saya
-                </button>
-            </div>
+    <div class="px-6 mb-12" x-data>
+        <div class="bg-[#5d687c] rounded-[24px] p-5 shadow-sm relative overflow-visible flex flex-col min-h-[140px] border border-[#6b768a]">
+            <div class="flex items-center justify-between h-full z-10 relative">
+                {{-- Text Content --}}
+                <div class="flex-1 pr-2 z-20">
+                    <h2 class="text-white text-[17px] font-bold mb-1 leading-tight whitespace-nowrap">Butuh bantuan darurat?</h2>
+                    <p class="text-[#e2e8f0] text-[12px] mb-4">Dapatkan bantuan sekarang!</p>
+                    
+                    <button @click="$dispatch('open-sos')" class="bg-[#bce8ee] text-[#3d4a5e] font-bold text-[13px] py-2 px-5 rounded-xl shadow-md hover:bg-[#a6dce4] active:scale-95 transition-all w-max hover:shadow-lg">
+                        Bantu Saya
+                    </button>
+                </div>
 
-            {{-- Image --}}
-            <img src="{{ asset('images/home_emergency.png') }}" class="absolute left-2 bottom-0 w-[45%] max-w-[160px] object-contain z-0" alt="Emergency">
+                {{-- Image --}}
+                <div class="absolute -right-2 -bottom-6 w-[180px] z-10 drop-shadow-xl pointer-events-none">
+                    <img src="{{ asset('images/home_emergency.png') }}" class="w-full h-auto drop-shadow-xl" alt="Emergency">
+                </div>
+            </div>
         </div>
     </div>
     </div>

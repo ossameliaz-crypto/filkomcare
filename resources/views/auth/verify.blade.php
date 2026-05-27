@@ -9,7 +9,7 @@
         
         {{-- Back Button --}}
         <div class="px-5 pt-14 pb-2">
-            <a href="{{ url('/register') }}" class="inline-flex items-center text-slate-dark hover:text-primary transition">
+            <a href="{{ url('/register') }}" class="inline-flex items-center text-slate-dark hover:text-[#87B4B8] transition-all transform hover:-translate-x-1">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"/>
                 </svg>
@@ -53,12 +53,12 @@
                     </p>
                     <form action="{{ route('verify.resend', $user->id) }}" method="POST" id="resendForm" class="hidden">
                         @csrf
-                        <button type="submit" class="text-[11px] text-primary font-semibold hover:text-primary-dark transition">
+                        <button type="submit" class="text-[11px] text-[#87B4B8] font-semibold hover:text-[#5A8A8E] transition-colors">
                             Kirim ulang kode verifikasi
                         </button>
                     </form>
                     @if (session('success'))
-                        <p class="text-[11px] text-success mt-1">{{ session('success') }}</p>
+                        <p class="text-[11px] text-green-600 mt-1">{{ session('success') }}</p>
                     @endif
                 </div>
 
@@ -76,7 +76,7 @@
         <div class="w-full text-center pb-10 pt-6">
             <p class="text-[12px] text-gray-400 font-normal">
                 Kamu sudah punya akun? 
-                <a href="{{ url('/login') }}" class="text-slate-dark font-bold hover:text-primary transition">Login now</a>
+                <a href="{{ url('/login') }}" class="text-slate-dark font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Login now</a>
             </p>
         </div>
 
@@ -192,12 +192,17 @@
         background: #87B4B8;
         color: #ffffff;
         cursor: pointer;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
     .otp-btn-enabled:hover {
         background: #76a2a6;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
     .otp-btn-enabled:active {
         background: #5A8A8E;
+        transform: scale(0.95) translateY(0);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
 
     /* ===== Numeric Keyboard ===== */

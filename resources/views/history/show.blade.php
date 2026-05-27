@@ -8,7 +8,7 @@
     {{-- Top Bar --}}
     <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-4">
-            <a href="{{ route('history.index') }}" class="text-[#1a1a2e] hover:text-gray-600 transition">
+            <a href="{{ route('history.index') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
             <h1 class="text-[#1a1a2e] text-[20px] font-bold tracking-tight">Detail Konsultasi</h1>
@@ -20,7 +20,7 @@
     <div class="w-full h-px bg-gray-200 mb-6 -mx-6 w-[calc(100%+3rem)]"></div>
 
     {{-- Main Card --}}
-    <div class="bg-white rounded-[20px] border border-gray-50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-6 w-full">
+    <div class="bg-white rounded-[20px] border border-gray-50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-6 w-full transition-shadow duration-300 hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]">
         
         {{-- Card Header: Report ID & Status Badge --}}
         <div class="flex justify-between items-center mb-5">

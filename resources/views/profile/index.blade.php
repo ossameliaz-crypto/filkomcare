@@ -53,7 +53,7 @@
             <div class="mt-8 mb-4">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition">
+                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                         Sign Out
                     </button>
                 </form>
@@ -62,7 +62,7 @@
     @else
         {{-- Edit Profile Button --}}
         <div class="flex justify-center mt-6 z-10">
-            <a href="{{ route('profile.edit') }}" class="bg-[#b8d6da] bg-opacity-70 text-white font-bold py-2 px-6 rounded-lg text-[13px] hover:bg-[#87B4B8] transition">
+            <a href="{{ route('profile.edit') }}" class="bg-[#87B4B8] text-white font-bold py-2 px-6 rounded-lg text-[13px] hover:bg-[#6ca3a8] transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                 Edit Profile
             </a>
         </div>
@@ -84,19 +84,19 @@
             <div class="bg-white rounded-2xl shadow-sm p-4">
                 
                 {{-- Menu Items --}}
-                <a href="{{ route('profile.privacy') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
-                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Privasi & Keamanan</span>
-                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <a href="{{ route('profile.privacy') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition-all duration-300 transform hover:translate-x-1">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition-colors">Privasi & Keamanan</span>
+                    <svg class="text-gray-300 group-hover:text-[#87B4B8] transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 
-                <a href="{{ route('profile.notifications') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
-                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Preferensi Notifikasi</span>
-                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <a href="{{ route('profile.notifications') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition-all duration-300 transform hover:translate-x-1">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition-colors">Preferensi Notifikasi</span>
+                    <svg class="text-gray-300 group-hover:text-[#87B4B8] transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 
-                <a href="{{ route('profile.faq') }}" class="flex items-center justify-between py-4 group hover:bg-gray-50 rounded-lg px-2 transition">
-                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Bantuan & FAQ</span>
-                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <a href="{{ route('profile.faq') }}" class="flex items-center justify-between py-4 group hover:bg-gray-50 rounded-lg px-2 transition-all duration-300 transform hover:translate-x-1">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition-colors">Bantuan & FAQ</span>
+                    <svg class="text-gray-300 group-hover:text-[#87B4B8] transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             </div>
 
@@ -104,7 +104,7 @@
             <div class="mt-8 mb-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition">
+                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                         Sign Out
                     </button>
                 </form>
