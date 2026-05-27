@@ -45,8 +45,9 @@ class AuthController extends Controller
 
         // Cari berdasarkan NIM atau Email (karena di UI tertulis input your NIM number or email)
         $fieldType = filter_var($request->nim, FILTER_VALIDATE_EMAIL) ? 'email' : 'nim';
+        $remember = $request->has('remember');
 
-        if (Auth::attempt([$fieldType => $request->nim, 'password' => $request->password])) {
+        if (Auth::attempt([$fieldType => $request->nim, 'password' => $request->password], $remember)) {
             $user = Auth::user();
 
             // Cek apakah email sudah diverifikasi

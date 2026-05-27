@@ -47,6 +47,26 @@ class ConsultationController extends Controller
             'type' => 'reminder',
         ]);
 
+        // Send to Google Sheets Webhook
+        $webhookUrl = env('GOOGLE_SHEET_WEBHOOK_URL');
+        if ($webhookUrl) {
+            try {
+                \Illuminate\Support\Facades\Http::post($webhookUrl, [
+                    'report_id' => $reportId,
+                    'user_name' => Auth::user()->name,
+                    'user_nim' => Auth::user()->nim ?? '-',
+                    'topic' => $validated['topic'],
+                    'description' => $validated['description'],
+                    'date' => $validated['date'],
+                    'time' => $validated['time'],
+                    'service' => $validated['service'],
+                ]);
+            } catch (\Exception $e) {
+                // Log error silently so it doesn't interrupt the user experience
+                \Illuminate\Support\Facades\Log::error('Google Sheet Webhook Error: ' . $e->getMessage());
+            }
+        }
+
         session()->flash('consultation_data', $validated);
         
         return redirect()->route('consultation.detail');
@@ -115,5 +135,37 @@ class ConsultationController extends Controller
         $formattedDate = Carbon::parse($consultation->date)->translatedFormat('j F Y');
 
         return view('history.show', compact('consultation', 'formattedDate'));
+    }
+
+    /**
+     * Webhook Endpoint for Google Sheets to update status.
+     * Expects JSON: { "report_id": "RPT-26-1", "status": "Diproses" }
+     */
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'report_id' => 'required|string',
+            'status' => 'required|string|in:Menunggu,Diproses,Selesai',
+        ]);
+
+        $consultation = Consultation::where('report_id', $request->report_id)->first();
+
+        if ($consultation) {
+            $consultation->update([
+                'status' => $request->status,
+            ]);
+
+            // Create notification for the user regarding status change
+            Notification::create([
+                'user_id' => $consultation->user_id,
+                'title' => 'Pembaruan Status Konsultasi',
+                'message' => 'Status laporan ' . $consultation->report_id . ' Anda sekarang: ' . $request->status,
+                'type' => 'reminder',
+            ]);
+
+            return response()->json(['message' => 'Status updated successfully']);
+        }
+
+        return response()->json(['message' => 'Consultation not found'], 404);
     }
 }

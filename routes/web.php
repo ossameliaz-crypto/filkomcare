@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConsultationController;
 use Illuminate\Support\Facades\Route;
 
+// Webhook Route untuk Google Sheets
+Route::post('/webhook/update-status', [ConsultationController::class, 'updateStatus']);
+
 // Guest Routes (Hanya bisa diakses jika belum login)
 Route::middleware('guest')->group(function () {
     // Onboarding — landing page pertama kali

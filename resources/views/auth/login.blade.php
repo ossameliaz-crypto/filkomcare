@@ -67,7 +67,7 @@
                 </div>
 
                 {{-- Password Input --}}
-                <div class="mb-6 mt-3">
+                <div class="mb-4 mt-3">
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 flex items-center transition-all duration-200 keyboard-input-wrap">
                         <input type="password" name="password" id="passwordInput" required
                             placeholder="Input your password" 
@@ -84,6 +84,12 @@
                             </svg>
                         </button>
                     </div>
+                </div>
+
+                {{-- Remember Me --}}
+                <div class="flex items-center mb-6 pl-1">
+                    <input id="remember" type="checkbox" name="remember" class="w-4 h-4 text-[#87B4B8] bg-gray-100 border-gray-300 rounded focus:ring-[#87B4B8] focus:ring-2">
+                    <label for="remember" class="ml-2 text-[12px] font-medium text-gray-500">Ingat Saya</label>
                 </div>
 
                 {{-- Login Button --}}
