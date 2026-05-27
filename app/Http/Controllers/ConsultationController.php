@@ -12,7 +12,13 @@ class ConsultationController extends Controller
 {
     public function index()
     {
-        return view('consultation.index');
+        // Fetch all booked schedules to block them in UI
+        $bookedSchedules = Consultation::select('date', 'time')
+                            ->whereIn('status', ['Menunggu', 'Diproses'])
+                            ->get()
+                            ->toArray();
+
+        return view('consultation.index', compact('bookedSchedules'));
     }
 
     public function store(Request $request)

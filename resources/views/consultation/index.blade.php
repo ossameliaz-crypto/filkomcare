@@ -16,6 +16,16 @@
     selectedDate: null,
     selectedFullDate: null,
     dates: [],
+    bookedSchedules: @json($bookedSchedules ?? []),
+    
+    isBooked(timeStr) {
+        return this.bookedSchedules.some(s => s.date === this.selectedFullDate && s.time === timeStr);
+    },
+
+    autoSelectAvailableTime() {
+        let available = this.times.find(t => !this.isBooked(t));
+        this.selectedTime = available ? available : 'Penuh';
+    },
     
     init() {
         this.generateDates(new Date());
@@ -53,6 +63,7 @@
         }
         this.selectedDate = this.dates[0].date;
         this.selectedFullDate = this.dates[0].fullDate;
+        this.autoSelectAvailableTime();
     },
     
     updateDatesFromPicker(val) {
@@ -107,7 +118,7 @@
             
             <div class="flex overflow-x-auto gap-3 hide-scrollbar -mx-6 px-6 pb-4 pt-1">
                 <template x-for="item in dates" :key="item.date">
-                    <button @click="selectedDate = item.date" 
+                    <button type="button" @click="selectedDate = item.date; selectedFullDate = item.fullDate; autoSelectAvailableTime();" 
                             :class="{'border-[#5b687b] bg-[#f3ede3] text-[#5b687b] shadow-md -translate-y-1': selectedDate === item.date, 'border-transparent bg-[#f8f9fa] text-[#cbd5e1] hover:bg-gray-100': selectedDate !== item.date}"
                             class="shrink-0 flex flex-col items-center justify-center w-[55px] h-[75px] rounded-2xl border transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md">
                         <span class="text-[11px] mb-1 font-medium" :class="{'text-[#5b687b]': selectedDate === item.date, 'text-[#cbd5e1]': selectedDate !== item.date}" x-text="item.day"></span>
@@ -157,7 +168,7 @@
         </div>
 
         {{-- Kirim Button --}}
-        <button type="submit" class="w-full bg-[#a1c4c8] text-white font-bold text-[14px] py-4 rounded-xl mb-4 shadow-sm hover:shadow-lg hover:bg-[#8eb2b6] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
+        <button type="submit" :disabled="selectedTime === 'Penuh'" :class="{'opacity-50 cursor-not-allowed': selectedTime === 'Penuh'}" class="w-full bg-[#a1c4c8] text-white font-bold text-[14px] py-4 rounded-xl mb-4 shadow-sm hover:shadow-lg hover:bg-[#8eb2b6] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
             Kirim
         </button>
 
@@ -185,8 +196,13 @@
             
             <div class="grid grid-cols-3 gap-3 mb-8">
                 <template x-for="time in times" :key="time">
-                    <button @click="selectedTime = time"
-                            :class="{'bg-[#f3ede3] border-[#a1c4c8] text-[#3d4a5e]': selectedTime === time, 'border-gray-200 text-[#a1abb9]': selectedTime !== time}"
+                    <button type="button" @click="if(!isBooked(time)) selectedTime = time"
+                            :disabled="isBooked(time)"
+                            :class="{
+                                'bg-[#fee2e2] border-[#fca5a5] text-[#ef4444] cursor-not-allowed shadow-inner': isBooked(time),
+                                'bg-[#f3ede3] border-[#a1c4c8] text-[#3d4a5e]': selectedTime === time && !isBooked(time), 
+                                'border-gray-200 text-[#a1abb9]': selectedTime !== time && !isBooked(time)
+                            }"
                             class="border rounded-xl py-2 text-[12px] font-medium transition" x-text="time"></button>
                 </template>
             </div>
