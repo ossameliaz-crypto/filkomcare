@@ -87,7 +87,7 @@
         <input type="hidden" name="service" :value="tab === 'online' ? selectedOnlineService : selectedOfflineService">
         
         {{-- Header --}}
-        <h1 class="text-[#3d4a5e] text-[22px] font-bold mb-6">Konseling</h1>
+        <h1 class="text-[#3d4a5e] text-[22px] font-bold mb-8">Konseling</h1>
 
         {{-- Tabs --}}
         <div class="bg-[#f0f2f5] rounded-xl p-1 flex mb-8">
@@ -148,6 +148,14 @@
             <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] focus:outline-none focus:border-[#bce8ee]">
         </div>
 
+        {{-- Checkbox Persetujuan --}}
+        <div class="mb-6 flex items-start gap-3">
+            <input type="checkbox" id="agreement" name="agreement" required class="mt-1 w-4 h-4 text-[#87B4B8] bg-white border-gray-300 rounded focus:ring-[#87B4B8]">
+            <label for="agreement" class="text-[12px] text-gray-500 leading-relaxed">
+                Saya menyetujui persyaratan layanan dan memahami bahwa sesi konseling hanya diproses pada <strong>Senin - Jumat, 09.00 - 17.00 WIB</strong>.
+            </label>
+        </div>
+
         {{-- Kirim Button --}}
         <button type="submit" class="w-full bg-[#a1c4c8] text-white font-bold text-[14px] py-4 rounded-xl mb-4 shadow-sm hover:bg-[#8eb2b6] transition">
             Kirim
@@ -155,39 +163,7 @@
 
     </form>
 
-    {{-- Bottom Navigation --}}
-    <div class="absolute bottom-0 left-0 w-full h-[70px] bg-white border-t border-gray-100 flex justify-between items-center px-4 z-40">
-        {{-- Home --}}
-        <a href="{{ route('dashboard') }}" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span class="text-[10px] font-medium">Home</span>
-        </a>
-
-        {{-- Konsultasi (Active) --}}
-        <a href="{{ route('consultation.index') }}" class="flex flex-col items-center w-[60px] text-[#87B4B8] mr-8">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M11 9H7m4 4H7"></path></svg>
-            <span class="text-[10px] font-medium">Konsultasi</span>
-        </a>
-
-        {{-- SOS Button --}}
-        <div class="absolute left-1/2 bottom-5 -translate-x-1/2">
-            <button class="w-[60px] h-[60px] rounded-full bg-[#e34255] text-white font-bold text-[16px] shadow-lg shadow-red-500/30 border-4 border-white flex items-center justify-center transform active:scale-95 transition-transform">
-                SOS
-            </button>
-        </div>
-        
-        {{-- Riwayat --}}
-        <a href="{{ route('history.index') }}" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition ml-8">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span class="text-[10px] font-medium mt-1">Riwayat</span>
-        </a>
-
-        {{-- Profile --}}
-        <a href="#" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span class="text-[10px] font-medium">Profile</span>
-        </a>
-    </div>
+    @include('components.bottom-nav', ['active' => 'consultation'])
 
     {{-- Bottom Sheet: Waktu Konseling --}}
     <div x-show="timeModalOpen" class="absolute inset-0 z-50 flex flex-col justify-end" style="display: none;">

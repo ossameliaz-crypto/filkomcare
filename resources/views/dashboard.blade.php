@@ -4,7 +4,8 @@
 @section('page-name', 'Home')
 
 @section('content')
-<div class="relative w-full min-h-full bg-[#fcfcfc] flex flex-col pb-24">
+<div class="relative w-full h-[844px] bg-[#fcfcfc] overflow-hidden flex flex-col pb-[70px]">
+    <div class="flex-1 overflow-y-auto w-full pb-8">
 
     {{-- ===== Top Header Background ===== --}}
     <div class="bg-[#5d687c] w-full pt-16 pb-24 px-6 rounded-b-[32px] relative z-10">
@@ -187,39 +188,10 @@
             <img src="{{ asset('images/home_emergency.png') }}" class="absolute left-2 bottom-0 w-[45%] max-w-[160px] object-contain z-0" alt="Emergency">
         </div>
     </div>
+    </div>
 
     {{-- ===== Bottom Navigation ===== --}}
-    <div class="absolute bottom-0 left-0 w-full h-[70px] bg-white border-t border-gray-100 flex justify-between items-center px-4 z-50">
-        {{-- Home --}}
-        <a href="{{ route('dashboard') }}" class="flex flex-col items-center w-[60px] text-[#87B4B8]">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span class="text-[10px] font-medium">Home</span>
-        </a>
-
-        {{-- Konsultasi --}}
-        <a href="{{ route('consultation.index') }}" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition mr-8">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M11 9H7m4 4H7"></path></svg>
-            <span class="text-[10px] font-medium">Konsultasi</span>
-        </a>
-
-        {{-- SOS Button (Floating) --}}
-        <div class="absolute left-1/2 bottom-5 -translate-x-1/2">
-            <button class="w-[60px] h-[60px] rounded-full bg-[#e34255] text-white font-bold text-[16px] shadow-lg shadow-red-500/30 border-4 border-white flex items-center justify-center transform active:scale-95 transition-transform">
-                SOS
-            </button>
-        </div>
-        {{-- Riwayat --}}
-        <a href="{{ route('history.index') }}" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition ml-8">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span class="text-[10px] font-medium mt-1">Riwayat</span>
-        </a>
-
-        {{-- Profile --}}
-        <a href="#" class="flex flex-col items-center w-[60px] text-gray-400 hover:text-[#87B4B8] transition">
-            <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span class="text-[10px] font-medium">Profile</span>
-        </a>
-    </div>
+    @include('components.bottom-nav', ['active' => 'home'])
 
 </div>
 @endsection

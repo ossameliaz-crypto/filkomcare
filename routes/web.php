@@ -36,5 +36,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat', [ConsultationController::class, 'history'])->name('history.index');
     Route::get('/riwayat/{id}', [ConsultationController::class, 'showHistory'])->name('history.show');
     
+    // Profile Routes
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    
+    // Profile Sub-pages
+    Route::get('/profile/privacy', [App\Http\Controllers\ProfileController::class, 'privacy'])->name('profile.privacy');
+    Route::get('/profile/notifications', [App\Http\Controllers\ProfileController::class, 'notifications'])->name('profile.notifications');
+    Route::get('/profile/faq', [App\Http\Controllers\ProfileController::class, 'faq'])->name('profile.faq');
+    Route::get('/profile/settings', [App\Http\Controllers\ProfileController::class, 'settings'])->name('profile.settings');
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

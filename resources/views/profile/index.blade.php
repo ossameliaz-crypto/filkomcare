@@ -1,0 +1,121 @@
+@extends('layouts.mobile-emulator')
+
+@section('title', 'FilkomCare - Profile')
+
+@section('content')
+<div class="relative w-full h-[844px] bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="profileApp()">
+    
+    {{-- Dark Header Area --}}
+    <div class="relative h-[160px] bg-[#5c687f] w-full pt-14 px-6 z-0">
+        <h1 class="text-white text-[20px] font-bold tracking-wide">My Account</h1>
+    </div>
+
+    {{-- Profile Card (Overlapping header) --}}
+    <div class="px-6 -mt-16 z-10">
+        <div class="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex items-center gap-5">
+            {{-- Initials Avatar --}}
+            <div class="w-[85px] h-[85px] rounded-full bg-[#f4ece3] flex items-center justify-center shrink-0">
+                <span class="text-[#3d4a5e] text-[32px] font-bold">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}{{ strtoupper(substr(strrchr(Auth::user()->name, ' '), 1, 1) ?: '') }}
+                </span>
+            </div>
+            
+            {{-- User Details --}}
+            <div class="flex-1">
+                <h2 class="text-[#3d4a5e] text-[20px] font-bold mb-1">{{ Auth::user()->name }}</h2>
+                <p class="text-[#5c6d7a] text-[12px] font-medium mb-1">{{ Auth::user()->nim ?? 'NIM belum diisi' }}</p>
+                <p class="text-[#5c6d7a] text-[12px] font-medium leading-snug">{{ Auth::user()->department ?? 'Program Studi belum diisi' }}</p>
+            </div>
+        </div>
+    </div>
+
+    @php
+        $isProfileComplete = !empty(Auth::user()->nim) && !empty(Auth::user()->department) && !empty(Auth::user()->phone_number);
+    @endphp
+
+    @if(!$isProfileComplete)
+        {{-- Incomplete Profile Banner --}}
+        <div class="px-6 mt-8 z-10 flex-1">
+            <div class="bg-[#f0f7f8] border border-[#d2e8eb] rounded-2xl p-5 text-center shadow-sm">
+                <div class="w-16 h-16 bg-[#e0f2f4] text-[#3ab3c3] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <h3 class="text-[#207c88] font-bold text-[16px] mb-2">Lengkapi Data Diri</h3>
+                <p class="text-[#4b9ba6] text-[13px] leading-relaxed mb-6">
+                    Hai {{ explode(' ', Auth::user()->name)[0] }}, kamu belum bisa mengakses menu profile nih. Yuk lengkapi NIM, Program Studi, dan Nomor WhatsApp kamu dulu!
+                </p>
+                <a href="{{ route('profile.edit') }}" class="inline-block w-full bg-[#87B4B8] text-white font-bold py-3.5 px-6 rounded-xl text-[14px] shadow-md hover:bg-[#6ca3a8] transition">
+                    Lengkapi Sekarang
+                </a>
+            </div>
+            
+            {{-- Sign Out Button (Always visible) --}}
+            <div class="mt-8 mb-4">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition">
+                        Sign Out
+                    </button>
+                </form>
+            </div>
+        </div>
+    @else
+        {{-- Edit Profile Button --}}
+        <div class="flex justify-center mt-6 z-10">
+            <a href="{{ route('profile.edit') }}" class="bg-[#b8d6da] bg-opacity-70 text-white font-bold py-2 px-6 rounded-lg text-[13px] hover:bg-[#87B4B8] transition">
+                Edit Profile
+            </a>
+        </div>
+
+        {{-- Main Menu List --}}
+        <div class="px-6 mt-8 flex-1 overflow-y-auto pb-[140px] z-10">
+            <div class="bg-white rounded-2xl shadow-sm p-4">
+                
+                {{-- Menu Items --}}
+                <a href="{{ route('profile.privacy') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Privasi & Keamanan</span>
+                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+                
+                <a href="{{ route('profile.notifications') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Preferensi Notifikasi</span>
+                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+                
+                <a href="{{ route('profile.faq') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Bantuan & FAQ</span>
+                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+                
+                <a href="{{ route('profile.settings') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
+                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Pengaturan</span>
+                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+            </div>
+
+            {{-- Sign Out Button --}}
+            <div class="mt-8 mb-4">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition">
+                        Sign Out
+                    </button>
+                </form>
+            </div>
+            
+            {{-- Footer Text --}}
+            <div class="text-center text-gray-400 text-[13px] font-medium">
+                FilkomCare v1.0.0 | UKLT Filkom
+            </div>
+        </div>
+    @endif
+
+    @include('components.bottom-nav', ['active' => 'profile'])
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('profileApp', () => ({}))
+    })
+</script>
+@endsection

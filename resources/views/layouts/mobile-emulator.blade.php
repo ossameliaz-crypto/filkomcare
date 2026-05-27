@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'FilkomCare')</title>
-    @vite('resources/css/app.css')
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#87B4B8',
+                        'primary-hover': '#6ca3a8',
+                        'slate-dark': '#3d4a5e',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
@@ -389,6 +405,9 @@
                 <div class="phone-content">
                     @yield('content')
                 </div>
+
+                {{-- SOS Modal --}}
+                @include('components.sos-modal')
 
                 {{-- Home Indicator --}}
                 <div class="home-indicator"></div>
