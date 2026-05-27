@@ -14,13 +14,20 @@
             <h1 class="text-white text-[19px] font-semibold flex items-center gap-2">
                 👋 Hai, {{ explode(' ', Auth::user()->name ?? 'Mahasiswa')[0] }}
             </h1>
-            <div class="relative">
+            <a href="{{ route('notifications.index') }}" class="relative block">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
-                <div class="absolute top-0 right-0.5 w-2.5 h-2.5 bg-danger rounded-full border-2 border-[#5d687c]"></div>
-            </div>
+                @php
+                    $unreadNotifCount = \App\Models\Notification::where('user_id', Auth::id())->where('is_read', false)->count();
+                @endphp
+                @if($unreadNotifCount > 0)
+                <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-[#5d687c] flex items-center justify-center">
+                    <span class="text-white text-[8px] font-bold">{{ $unreadNotifCount > 9 ? '9+' : $unreadNotifCount }}</span>
+                </div>
+                @endif
+            </a>
         </div>
     </div>
 

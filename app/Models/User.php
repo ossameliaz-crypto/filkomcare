@@ -60,6 +60,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's app notifications.
+     */
+    public function userNotifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
      * Check if the user's email is verified.
      */
     public function isVerified(): bool

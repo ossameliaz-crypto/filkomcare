@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Consultation;
+use App\Models\Notification;
 
 class ConsultationController extends Controller
 {
@@ -36,6 +37,14 @@ class ConsultationController extends Controller
             'time' => $validated['time'],
             'service' => $validated['service'],
             'status' => 'Menunggu',
+        ]);
+
+        // Create notification for the user
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title' => 'Konsultasi anda diverifikasi',
+            'message' => $reportId . ' sedang diproses admin',
+            'type' => 'reminder',
         ]);
 
         session()->flash('consultation_data', $validated);

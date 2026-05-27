@@ -46,6 +46,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/notifications', [App\Http\Controllers\ProfileController::class, 'notifications'])->name('profile.notifications');
     Route::get('/profile/faq', [App\Http\Controllers\ProfileController::class, 'faq'])->name('profile.faq');
     Route::get('/profile/settings', [App\Http\Controllers\ProfileController::class, 'settings'])->name('profile.settings');
+    Route::post('/profile/change-password', [App\Http\Controllers\ProfileController::class, 'changePassword'])->name('profile.changePassword');
+    Route::post('/profile/delete-account', [App\Http\Controllers\ProfileController::class, 'deleteAccount'])->name('profile.deleteAccount');
+    
+    // Notification Routes
+    Route::get('/notifikasi', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifikasi/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
+    Route::post('/notifikasi/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markRead'])->name('notifications.markRead');
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -83,6 +83,48 @@
             </div>
 
         </div>
+
+        {{-- Change Password Section --}}
+        <h2 class="text-[#1a1a2e] text-[16px] font-bold mb-4 mt-8">Ubah Kata Sandi</h2>
+
+        <div class="bg-white rounded-[24px] shadow-sm p-6">
+            <form action="{{ route('profile.changePassword') }}" method="POST">
+                @csrf
+
+                <div class="flex flex-col gap-5">
+                    {{-- Current Password --}}
+                    <div>
+                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Password Lama</label>
+                        <input type="password" name="current_password" required placeholder="Masukkan password lama" 
+                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
+                        @error('current_password')
+                        <p class="text-red-500 text-[11px] mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- New Password --}}
+                    <div>
+                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Password Baru</label>
+                        <input type="password" name="new_password" required placeholder="Minimal 8 karakter" 
+                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
+                        @error('new_password')
+                        <p class="text-red-500 text-[11px] mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Confirm Password --}}
+                    <div>
+                        <label class="text-[#3d4a5e] text-[13px] font-medium mb-2 block">Konfirmasi Password Baru</label>
+                        <input type="password" name="new_password_confirmation" required placeholder="Ulangi password baru" 
+                               class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-[#87B4B8] transition">
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#87B4B8] text-white font-bold py-3.5 rounded-xl text-[14px] hover:bg-[#6ca3a8] transition shadow-[0_4px_12px_rgba(135,180,184,0.3)]">
+                        Ubah Kata Sandi
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     {{-- Edit Modal Overlay --}}

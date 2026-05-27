@@ -69,6 +69,18 @@
 
         {{-- Main Menu List --}}
         <div class="px-6 mt-8 flex-1 overflow-y-auto pb-[140px] z-10">
+
+            @if(session('success'))
+            <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-medium">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-[13px] font-medium">
+                {{ $errors->first() }}
+            </div>
+            @endif
+
             <div class="bg-white rounded-2xl shadow-sm p-4">
                 
                 {{-- Menu Items --}}
@@ -82,25 +94,27 @@
                     <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
                 
-                <a href="{{ route('profile.faq') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
+                <a href="{{ route('profile.faq') }}" class="flex items-center justify-between py-4 group hover:bg-gray-50 rounded-lg px-2 transition">
                     <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Bantuan & FAQ</span>
-                    <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </a>
-                
-                <a href="{{ route('profile.settings') }}" class="flex items-center justify-between py-4 border-b border-gray-100 last:border-b-0 group hover:bg-gray-50 rounded-lg px-2 transition">
-                    <span class="text-[#3d4a5e] text-[15px] font-medium group-hover:text-[#87B4B8] transition">Pengaturan</span>
                     <svg class="text-gray-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             </div>
 
             {{-- Sign Out Button --}}
-            <div class="mt-8 mb-4">
+            <div class="mt-8 mb-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition">
                         Sign Out
                     </button>
                 </form>
+            </div>
+
+            {{-- Delete Account Button --}}
+            <div class="mb-4">
+                <button @click="deleteModalOpen = true" class="w-full text-gray-400 text-[13px] font-medium hover:text-[#df4a56] transition py-2">
+                    Hapus Akun Permanen
+                </button>
             </div>
             
             {{-- Footer Text --}}
@@ -110,12 +124,45 @@
         </div>
     @endif
 
+    {{-- ===== Delete Account Modal ===== --}}
+    <div x-show="deleteModalOpen" class="absolute inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center p-6" x-transition.opacity style="display: none;">
+        <div class="bg-white w-full rounded-2xl p-6 shadow-2xl" x-show="deleteModalOpen" x-transition.scale>
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-16 h-16 bg-[#fde9eb] rounded-full flex items-center justify-center mb-4">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#df4a56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                </div>
+                <h3 class="text-[#1a1a2e] text-[18px] font-bold mb-1">Hapus Akun?</h3>
+                <p class="text-gray-500 text-[13px] text-center leading-relaxed">Semua data kamu akan dihapus permanen dan tidak bisa dikembalikan. Masukkan password untuk konfirmasi.</p>
+            </div>
+
+            <form action="{{ route('profile.deleteAccount') }}" method="POST">
+                @csrf
+                <div class="mb-5">
+                    <input type="password" name="confirm_password" required placeholder="Masukkan password kamu" 
+                           class="w-full bg-[#f8f9fa] border border-gray-200 text-[#3d4a5e] rounded-xl py-3 px-4 text-[14px] focus:outline-none focus:border-red-300 transition">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" @click="deleteModalOpen = false" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-500 font-bold hover:bg-gray-200 transition">Batal</button>
+                    <button type="submit" class="flex-1 py-3 rounded-xl bg-[#df4a56] text-white font-bold hover:bg-[#c0394a] transition">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     @include('components.bottom-nav', ['active' => 'profile'])
 </div>
 
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('profileApp', () => ({}))
+        Alpine.data('profileApp', () => ({
+            deleteModalOpen: false
+        }))
     })
 </script>
 @endsection
+

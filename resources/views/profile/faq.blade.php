@@ -60,16 +60,6 @@
             </div>
 
         </div>
-
-        <div class="mt-8">
-            <div class="bg-[#b8d6da] bg-opacity-30 rounded-[20px] p-6 text-center border border-[#b8d6da]">
-                <h3 class="text-[#1a1a2e] text-[15px] font-bold mb-2">Masih Butuh Bantuan?</h3>
-                <p class="text-gray-500 text-[13px] mb-4">Tim dukungan FilkomCare siap membantu Anda 24/7.</p>
-                <button class="bg-[#87B4B8] text-white px-6 py-2.5 rounded-xl font-bold text-[13px] shadow-sm hover:bg-[#6ca3a8] transition">
-                    Hubungi Admin
-                </button>
-            </div>
-        </div>
         
     </div>
 </div>
