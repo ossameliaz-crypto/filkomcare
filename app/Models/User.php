@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'email_verified_at',
     ];
 
     /**
@@ -47,4 +48,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the verification codes for the user.
+     */
+    public function verificationCodes()
+    {
+        return $this->hasMany(EmailVerificationCode::class);
+    }
+
+    /**
+     * Check if the user's email is verified.
+     */
+    public function isVerified(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
 }
+

@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerificationCodeMail;
+use App\Models\EmailVerificationCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    // Landing page — cek apakah user sudah pernah lihat onboarding
+    public function landing(Request $request) {
+        // Jika cookie onboarding_seen ada, langsung ke login
+        if ($request->cookie('onboarding_seen')) {
+            return redirect()->route('login');
+        }
+
+        // Jika belum pernah, tampilkan onboarding
+        return view('onboarding');
+    }
+
+    // Menampilkan Halaman Onboarding (direct access)
+    public function showOnboarding() {
+        return view('onboarding');
+    }
+
     // Menampilkan Halaman Login
     public function showLogin() {
         return view('auth.login');
@@ -28,6 +47,21 @@ class AuthController extends Controller
         $fieldType = filter_var($request->nim, FILTER_VALIDATE_EMAIL) ? 'email' : 'nim';
 
         if (Auth::attempt([$fieldType => $request->nim, 'password' => $request->password])) {
+            $user = Auth::user();
+
+            // Cek apakah email sudah diverifikasi
+            if (!$user->isVerified()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                // Generate kode baru dan redirect ke verifikasi
+                $this->generateAndSendCode($user);
+
+                return redirect()->route('verify', $user->id)
+                    ->with('info', 'Email kamu belum diverifikasi. Kode verifikasi baru telah dikirim.');
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
@@ -45,29 +79,156 @@ class AuthController extends Controller
 
     // Proses Register
     public function register(Request $request) {
+        // Validasi input
         $request->validate([
-            'nim' => 'required|numeric|digits:18|unique:users,nim', // Aturan validasi SRS [cite: 422]
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@student\.ub\.ac\.id$/|unique:users,email', // Harus email UB [cite: 422]
-            'password' => 'required|min:8', // Minimal 8 karakter [cite: 422]
-            'password_confirmation' => 'required|same:password', // Harus cocok [cite: 422]
+            'identifier' => 'required',
+            'password' => [
+                'required', 
+                'min:8', 
+                'regex:/[a-z]/',      // minimal 1 lowercase
+                'regex:/[A-Z]/',      // minimal 1 uppercase
+                'regex:/[@$!%*#?&.,]/', // minimal 1 symbol
+            ],
+            'password_confirmation' => 'required|same:password',
         ], [
-            'nim.digits' => 'NIM harus terdiri dari 18 digit angka.', // [cite: 422]
-            'email.regex' => 'Gunakan email institusi (@student.ub.ac.id).', // [cite: 422]
-            'password.min' => 'Password minimal 8 karakter.', // [cite: 422]
-            'password_confirmation.same' => 'Password tidak cocok.', // [cite: 422]
+            'identifier.required' => 'Kolom NIM atau email wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan simbol.',
+            'password_confirmation.required' => 'Konfirmasi password wajib diisi.',
+            'password_confirmation.same' => 'Password tidak cocok.',
         ]);
 
-        // Simpan User Baru ke Database
-        User::create([
-            'nim' => $request->nim,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $identifier = trim($request->identifier);
+        $isEmail = filter_var($identifier, FILTER_VALIDATE_EMAIL);
+
+        if ($isEmail) {
+            // Validasi format email UB [cite: 422]
+            if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.ub\.ac\.id$/', $identifier)) {
+                return back()->withErrors([
+                    'identifier' => 'Gunakan email institusi (@student.ub.ac.id).',
+                ])->withInput();
+            }
+
+            // Cek email unik
+            if (User::where('email', $identifier)->exists()) {
+                return back()->withErrors([
+                    'identifier' => 'Email sudah terdaftar.',
+                ])->withInput();
+            }
+
+            // Derive name dari email (bagian sebelum @)
+            $name = ucfirst(explode('@', $identifier)[0]);
+
+            $user = User::create([
+                'email' => $identifier,
+                'name' => $name,
+                'password' => Hash::make($request->password),
+            ]);
+        } else {
+            // Validasi NIM: harus 18 digit angka [cite: 422]
+            if (!preg_match('/^\d{18}$/', $identifier)) {
+                return back()->withErrors([
+                    'identifier' => 'NIM harus terdiri dari 18 digit angka.',
+                ])->withInput();
+            }
+
+            // Cek NIM unik
+            if (User::where('nim', $identifier)->exists()) {
+                return back()->withErrors([
+                    'identifier' => 'NIM sudah terdaftar.',
+                ])->withInput();
+            }
+
+            // Buat email dari NIM: nim@student.ub.ac.id
+            $email = $identifier . '@student.ub.ac.id';
+            $name = 'Mahasiswa ' . $identifier;
+
+            $user = User::create([
+                'nim' => $identifier,
+                'email' => $email,
+                'name' => $name,
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        // Generate dan kirim kode verifikasi
+        $this->generateAndSendCode($user);
+
+        // Redirect ke halaman verifikasi
+        return redirect()->route('verify', $user->id);
+    }
+
+    // Menampilkan Halaman Verifikasi
+    public function showVerification(User $user) {
+        // Pastikan user belum verified
+        if ($user->isVerified()) {
+            return redirect()->route('login')->with('success', 'Email sudah diverifikasi. Silakan login.');
+        }
+
+        return view('auth.verify', compact('user'));
+    }
+
+    // Proses Verifikasi OTP
+    public function verify(Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'code' => 'required|string|size:6',
         ]);
+
+        $user = User::findOrFail($request->user_id);
+
+        // Cek apakah sudah verified
+        if ($user->isVerified()) {
+            return redirect()->route('login')->with('success', 'Email sudah diverifikasi.');
+        }
+
+        // Cari kode yang valid (belum expired)
+        $verification = EmailVerificationCode::where('user_id', $user->id)
+            ->where('code', $request->code)
+            ->where('expires_at', '>', now())
+            ->latest('created_at')
+            ->first();
+
+        if (!$verification) {
+            return back()->withErrors([
+                'code' => 'Kode verifikasi salah atau sudah kedaluwarsa.',
+            ]);
+        }
+
+        // Set email sebagai verified
+        $user->update(['email_verified_at' => now()]);
+
+        // Hapus semua kode verifikasi user ini
+        EmailVerificationCode::where('user_id', $user->id)->delete();
 
         // [cite: 413]
-        return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Selamat datang di ULTKSP FILKOM!');
+        return redirect()->route('login')->with('success', 'Akun berhasil diverifikasi. Selamat datang di ULTKSP FILKOM!');
+    }
+
+    // Kirim Ulang Kode Verifikasi
+    public function resendCode(User $user) {
+        // Cek apakah sudah verified
+        if ($user->isVerified()) {
+            return redirect()->route('login')->with('success', 'Email sudah diverifikasi.');
+        }
+
+        // Rate limit: cek apakah kode terakhir dikirim kurang dari 60 detik yang lalu
+        $lastCode = EmailVerificationCode::where('user_id', $user->id)
+            ->latest('created_at')
+            ->first();
+
+        if ($lastCode && $lastCode->created_at->diffInSeconds(now()) < 60) {
+            $remaining = 60 - $lastCode->created_at->diffInSeconds(now());
+            return back()->withErrors([
+                'resend' => "Tunggu {$remaining} detik sebelum meminta kode lainnya.",
+            ]);
+        }
+
+        // Generate dan kirim kode baru
+        $this->generateAndSendCode($user);
+
+        return back()->with('success', 'Kode verifikasi baru telah dikirim ke email kamu.');
     }
 
     // Proses Logout
@@ -76,5 +237,28 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
+    }
+
+    /**
+     * Generate kode OTP 6-digit dan kirim via email.
+     */
+    private function generateAndSendCode(User $user): void
+    {
+        // Hapus kode lama
+        EmailVerificationCode::where('user_id', $user->id)->delete();
+
+        // Generate kode 6-digit
+        $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Simpan ke database (berlaku 10 menit)
+        EmailVerificationCode::create([
+            'user_id' => $user->id,
+            'code' => $code,
+            'expires_at' => now()->addMinutes(10),
+            'created_at' => now(),
+        ]);
+
+        // Kirim email
+        Mail::to($user->email)->send(new VerificationCodeMail($code, $user->name));
     }
 }
