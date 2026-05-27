@@ -206,8 +206,23 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .phone-content::-webkit-scrollbar {
+        
+        /* Hide scrollbars globally inside phone */
+        .phone-frame * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        .phone-frame *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        /* Utility class just in case */
+        .no-scrollbar::-webkit-scrollbar {
             display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* ===== Home Indicator ===== */

@@ -181,7 +181,7 @@
             <div class="flex items-center justify-between h-full z-10 relative">
                 {{-- Text Content --}}
                 <div class="flex-1 pr-2 z-20">
-                    <h2 class="text-white text-[17px] font-bold mb-1 leading-tight whitespace-nowrap">Butuh bantuan darurat?</h2>
+                    <h2 class="text-white text-[16px] font-bold mb-1 leading-tight">Butuh bantuan darurat?</h2>
                     <p class="text-[#e2e8f0] text-[12px] mb-4">Dapatkan bantuan sekarang!</p>
                     
                     <button @click="$dispatch('open-sos')" class="bg-[#bce8ee] text-[#3d4a5e] font-bold text-[13px] py-2 px-5 rounded-xl shadow-md hover:bg-[#a6dce4] active:scale-95 transition-all w-max hover:shadow-lg">
@@ -190,7 +190,7 @@
                 </div>
 
                 {{-- Image --}}
-                <div class="absolute -right-2 -bottom-6 w-[180px] z-10 drop-shadow-xl pointer-events-none">
+                <div class="absolute -right-2 -bottom-6 w-[140px] z-10 drop-shadow-xl pointer-events-none">
                     <img src="{{ asset('images/home_emergency.png') }}" class="w-full h-auto drop-shadow-xl" alt="Emergency">
                 </div>
             </div>
@@ -204,18 +204,6 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    /* Hide scrollbar for horizontal scroll */
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>
