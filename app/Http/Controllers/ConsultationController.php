@@ -31,8 +31,8 @@ class ConsultationController extends Controller
             'description' => 'required|string',
         ]);
 
-        $count = Consultation::count() + 1;
-        $reportId = 'RPT-' . date('y') . '-' . $count;
+        // Menggunakan kombinasi tanggal (TahunBulanTanggal) dan 4 huruf/angka acak untuk menjamin keunikan 100%
+        $reportId = 'RPT-' . date('ymd') . '-' . strtoupper(\Illuminate\Support\Str::random(4));
 
         Consultation::create([
             'user_id' => Auth::id(),
@@ -161,11 +161,21 @@ class ConsultationController extends Controller
                 'status' => $request->status,
             ]);
 
+            // Menyiapkan teks notifikasi yang ramah
+            $message = '';
+            if ($request->status === 'Diproses') {
+                $message = "Hore! Pengajuan konsultasi Anda ({$consultation->report_id}) saat ini sedang Diproses oleh tim kami. Persiapkan diri Anda sesuai jadwal ya!";
+            } elseif ($request->status === 'Selesai') {
+                $message = "Sesi konsultasi Anda ({$consultation->report_id}) telah ditandai Selesai. Terima kasih telah menggunakan layanan FilkomCare, semoga sehat selalu!";
+            } else {
+                $message = "Status laporan konsultasi Anda ({$consultation->report_id}) saat ini: {$request->status}.";
+            }
+
             // Create notification for the user regarding status change
             Notification::create([
                 'user_id' => $consultation->user_id,
-                'title' => 'Pembaruan Status Konsultasi',
-                'message' => 'Status laporan ' . $consultation->report_id . ' Anda sekarang: ' . $request->status,
+                'title' => 'Update Status Konsultasi 🔔',
+                'message' => $message,
                 'type' => 'reminder',
             ]);
 
