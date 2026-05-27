@@ -1,3 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+    /* Sky (Primary Blue-Teal) */
+    --color-sky-light: #c4eff5;
+    --color-sky-dark: #8dd9e3;
+    --color-sky-deeper: #3ab3c3;
+
+    /* Warm (Background tones) */
+    --color-warm: #f1e9e2;
+    --color-warm-dark: #d4c5b6;
+
+    /* Slate */
+    --color-slate-base: #5f6b64;
+    --color-slate-dark: #3d4a5e;
+
+    /* Semantic */
+    --color-danger: #e05c5c;
+    --color-success: #4caf7d;
+
+    /* Primary */
+    --color-primary: #87B4B8;
+    --color-primary-hover: #76a2a6;
+    --color-primary-dark: #5A8A8E;
+
+    /* Font */
+    --font-family-sans: 'Poppins', sans-serif;
+}
