@@ -1,9 +1,9 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Riwayat')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#fafafa] overflow-hidden flex flex-col" x-data="historyApp()">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#fafafa] overflow-hidden flex flex-col" x-data="historyApp()">
     
     {{-- Header --}}
     <div class="px-6 pt-12 pb-4 bg-white z-10 rounded-b-[24px]">

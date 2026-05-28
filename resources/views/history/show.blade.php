@@ -1,9 +1,9 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Detail Riwayat')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#fafafa] overflow-y-auto px-6 pt-12 pb-8">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#fafafa] overflow-y-auto px-6 pt-12 pb-8">
     
     {{-- Top Bar --}}
     <div class="flex items-center justify-between mb-8">

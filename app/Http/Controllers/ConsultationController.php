@@ -120,9 +120,23 @@ class ConsultationController extends Controller
             $waName = 'Whatsapp DWP';
         }
 
-        $waLink = "https://wa.me/" . $waNumber . "?text=" . urlencode("Halo, saya {$user->name}. Saya ingin konseling mengenai topik: {$data['topic']}. \n\nDeskripsi: {$data['description']}");
+        // Format tanggal untuk pesan WA
+        $waDate = Carbon::parse($data['date'])->locale('id')->translatedFormat('l, d F Y');
+        $waTime = isset($data['time']) ? str_replace(' WIB', '', $data['time']) . ' WIB' : '10:30 - 11:30 WIB';
+        
+        $waText = "Halo, saya {$user->name}.\n\nSaya telah menjadwalkan sesi konseling dengan detail berikut:\n"
+                . "📅 Tanggal: {$waDate}\n"
+                . "⏰ Jam: {$waTime}\n"
+                . "💬 Topik: {$data['topic']}\n\n"
+                . "Deskripsi masalah: {$data['description']}\n\n"
+                . "Mohon arahannya. Terima kasih.";
+                
+        $waLink = "https://wa.me/" . $waNumber . "?text=" . urlencode($waText);
 
-        return view('consultation.detail', compact('user', 'initials', 'data', 'formattedDate', 'waName', 'waLink', 'isOffline', 'location'));
+        // Menambahkan isTimeValid = true agar tombol WA selalu bisa diklik
+        $isTimeValid = true;
+
+        return view('consultation.detail', compact('user', 'initials', 'data', 'formattedDate', 'waName', 'waLink', 'isOffline', 'location', 'isTimeValid'));
     }
 
     public function history()
@@ -183,5 +197,30 @@ class ConsultationController extends Controller
         }
 
         return response()->json(['message' => 'Consultation not found'], 404);
+    }
+
+    /**
+     * Menangani laporan Panic Button (SOS)
+     */
+    public function sos(Request $request)
+    {
+        // Cek jam kerja (Senin-Jumat, 09:00 - 17:00)
+        $now = Carbon::now();
+        $isWorkingHours = $now->isWeekday() && $now->hour >= 9 && $now->hour < 17;
+
+        // Mencatat bahwa pengguna meminta bantuan SOS
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title' => 'Permintaan SOS Diterima',
+            'message' => $isWorkingHours 
+                ? 'Kami telah menerima permintaan darurat Anda. Mohon tetap terhubung via WhatsApp.'
+                : 'Layanan saat ini sedang offline. Data darurat Anda telah kami terima dan konselor akan segera menghubungi Anda saat jam layanan berlangsung (Senin-Jumat 09:00-17:00 WIB).',
+            'type' => 'system',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'is_working_hours' => $isWorkingHours
+        ]);
     }
 }

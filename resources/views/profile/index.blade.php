@@ -1,9 +1,9 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Profile')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="profileApp()">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="profileApp()">
     
     {{-- Dark Header Area --}}
     <div class="relative h-[160px] bg-[#5c687f] w-full pt-14 px-6 z-0">

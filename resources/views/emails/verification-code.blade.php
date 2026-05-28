@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
             <p>Jika kamu tidak merasa mendaftar di FilkomCare, abaikan email ini.</p>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} FilkomCare — ULTKSP FILKOM UB</p>
+            <p>&copy; {{ date('Y') }} FilkomCare â€” ULTKSP FILKOM UB</p>
         </div>
     </div>
 </body>

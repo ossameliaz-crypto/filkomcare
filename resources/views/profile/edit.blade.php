@@ -1,9 +1,9 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Edit Profile')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="editProfileApp()">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="editProfileApp()">
     
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-6 flex items-center gap-4 z-10 bg-[#f8f9fa]">

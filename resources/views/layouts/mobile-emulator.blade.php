@@ -1,10 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'FilkomCare')</title>
+    
+    <!-- PWA & Mobile Icons -->
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-filkomcare.png') }}">
+    <meta name="apple-mobile-web-app-title" content="FilkomCare">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#87B4B8">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -440,7 +447,7 @@
             </div>
             <div class="info-card">
                 <div class="label">Screen</div>
-                <div class="value">390 × 844</div>
+                <div class="value">390 Ã— 844</div>
                 <div class="subtitle">Super Retina XDR</div>
             </div>
             <div class="info-card">

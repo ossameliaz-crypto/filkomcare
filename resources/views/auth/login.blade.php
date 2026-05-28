@@ -1,4 +1,4 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'Login - FilkomCare')
 @section('page-name', 'Login')
@@ -168,9 +168,9 @@
                     </button>
                 </div>
                 <div class="kb-row kb-bottom-row">
-                    <button type="button" class="kb-key kb-key-icon" data-key="">😊</button>
+                    <button type="button" class="kb-key kb-key-icon" data-key="">ðŸ˜Š</button>
                     <div class="flex-1"></div>
-                    <button type="button" class="kb-key kb-key-icon" data-key="">🎤</button>
+                    <button type="button" class="kb-key kb-key-icon" data-key="">ðŸŽ¤</button>
                 </div>
             </div>
 

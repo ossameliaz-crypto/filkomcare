@@ -1,5 +1,5 @@
     {{-- ===== Bottom Navigation ===== --}}
-    <div x-data class="absolute bottom-0 left-0 w-full h-[70px] bg-white border-t border-gray-100 shadow-[0_-8px_20px_rgba(0,0,0,0.04)] flex justify-between items-center px-4 z-40">
+    <div x-data class="fixed bottom-0 left-0 w-full h-[70px] bg-white border-t border-gray-100 shadow-[0_-8px_20px_rgba(0,0,0,0.04)] flex justify-between items-center px-4 z-40 md:absolute">
         {{-- Home --}}
         <a href="{{ route('dashboard') }}" class="flex flex-col items-center w-[60px] transition group {{ $active === 'home' ? 'text-[#87B4B8]' : 'text-gray-400 hover:text-[#87B4B8]' }}">
             <svg class="mb-1 transition-transform group-hover:-translate-y-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="{{ $active === 'home' ? '2.5' : '2' }}" stroke-linecap="round" stroke-linejoin="round">

@@ -1,4 +1,4 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'Welcome - FilkomCare')
 @section('page-name', 'Onboarding')
@@ -286,7 +286,7 @@
         }
 
         if (currentSlide >= totalSlides - 1) {
-            // Last slide → go to login
+            // Last slide â†’ go to login
             skipOnboarding();
             return;
         }
@@ -346,7 +346,7 @@
         const diff = touchStartX - touchEndX;
         if (Math.abs(diff) > 50) {
             if (diff > 0) {
-                // Swipe left → next
+                // Swipe left â†’ next
                 nextSlide();
             }
             // No swipe right (back) in onboarding

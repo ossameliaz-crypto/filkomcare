@@ -275,7 +275,13 @@ class AuthController extends Controller
         ]);
 
         // Kirim email
-        Mail::to($user->email)->send(new VerificationCodeMail($code, $user->name));
+        try {
+            Mail::to($user->email)->send(new VerificationCodeMail($code, $user->name));
+        } catch (\Exception $e) {
+            // Jika gagal (sering terjadi di hosting gratis karena blokir SMTP port 587)
+            // Simpan kode OTP ke session agar bisa ditampilkan di layar
+            session()->flash('fallback_otp', $code);
+        }
     }
 
     /**

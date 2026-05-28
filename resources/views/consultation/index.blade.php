@@ -1,10 +1,10 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Konsultasi')
 @section('page-name', 'Konsultasi')
 
 @section('content')
-<div x-data="consultationApp()" class="relative w-full h-[844px] bg-white overflow-hidden pb-[70px]">
+<div x-data="consultationApp()" class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-white overflow-hidden pb-[70px]">
 
     {{-- Content Area (Scrollable) --}}
     <form action="{{ route('consultation.store') }}" method="POST" class="h-full overflow-y-auto hide-scrollbar px-6 pt-12 pb-8">

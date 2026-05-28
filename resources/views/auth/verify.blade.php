@@ -23,6 +23,13 @@
             <div class="mb-6">
                 <h1 class="text-[24px] font-bold text-[#3d4a5e] leading-tight">Verifikasi</h1>
                 <p class="text-[15px] text-gray-400 mt-1 font-light">Kode telah dikirimkan ke email</p>
+                
+                @if (session('fallback_otp'))
+                    <div class="mt-4 bg-blue-50 border border-blue-200 text-blue-800 p-3 rounded-xl text-[12px] font-semibold flex flex-col gap-1 shadow-sm">
+                        <span>⚠️ Email mungkin diblokir oleh server gratis.</span>
+                        <span>Kode OTP Anda adalah: <span class="text-[18px] tracking-widest text-[#87B4B8] font-bold">{{ session('fallback_otp') }}</span></span>
+                    </div>
+                @endif
             </div>
 
             {{-- OTP Form --}}

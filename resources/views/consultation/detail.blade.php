@@ -4,7 +4,7 @@
 @section('page-name', 'Detail Sesi Konseling')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#fafafa] overflow-y-auto px-6 pt-12 pb-8">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#fafafa] overflow-y-auto px-6 pt-12 pb-8">
     
     {{-- Top Bar --}}
     <div class="flex items-center gap-4 mb-8">
@@ -81,12 +81,22 @@
 
         @if(!$isOffline)
         {{-- Whatsapp Button --}}
+        @if($isTimeValid)
         <a href="{{ $waLink }}" target="_blank" class="border border-gray-200 rounded-[14px] py-3.5 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300 hover:shadow-md hover:border-[#25D366] transform hover:-translate-y-0.5 active:scale-95 mb-6 mx-auto w-full max-w-[85%] shadow-sm">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.0031 0C5.37895 0 0 5.38555 0 12.0223C0 14.1481 0.558362 16.1437 1.54519 17.8821L0.354144 22.2536L4.82194 21.0827C6.48624 21.9687 8.39704 22.4939 12.0031 22.4939C18.6272 22.4939 24 17.1084 24 10.4716C24 3.83486 18.6272 0 12.0031 0ZM18.5284 16.5501C18.2588 17.3101 16.9248 17.9734 16.1804 18.069C15.5843 18.145 14.7705 18.2404 11.8394 17.0267C8.09312 15.4746 5.6798 11.6666 5.4938 11.4191C5.30781 11.1716 3.96347 9.38711 3.96347 7.54536C3.96347 5.7036 4.88414 4.80998 5.25624 4.41999C5.5539 4.10601 6.03741 3.95383 6.50232 3.95383C6.65103 3.95383 6.7812 3.96347 6.89278 3.97298C7.30198 4.01099 7.50654 4.02984 7.78546 4.70494C8.1388 5.55998 8.9943 7.65063 9.08726 7.84091C9.18022 8.03119 9.329 8.27855 9.19883 8.5259C9.06866 8.77326 8.95708 8.8778 8.77109 9.08709C8.5851 9.29638 8.40854 9.44855 8.22256 9.67675C8.0552 9.88585 7.85994 10.1141 8.08307 10.4942C8.3062 10.8744 9.06866 12.1192 10.1939 13.1264C11.6445 14.424 12.8253 14.8329 13.2345 15.0232C13.6437 15.2134 14.0715 15.1754 14.3504 14.8806C14.7037 14.5097 15.1315 13.8443 15.5779 13.1979C15.894 12.7225 16.3217 12.6653 16.7681 12.8364C17.2144 13.0076 19.5762 14.177 20.0411 14.4052C20.506 14.6334 20.822 14.7476 20.9336 14.9379C21.0452 15.1281 21.0452 16.0315 20.6734 16.7915L18.5284 16.5501Z" />
             </svg>
             <span class="text-[#3d4a5e] text-[13px] font-bold">{{ $waName }}</span>
         </a>
+        @else
+        <button type="button" onclick="alert('Konsultasi belum dimulai. Anda baru bisa menghubungi konselor pada hari dan jam yang telah ditentukan.')" class="bg-gray-100 border border-gray-200 rounded-[14px] py-3.5 flex items-center justify-center gap-3 mb-6 mx-auto w-full max-w-[85%] shadow-sm cursor-not-allowed opacity-70">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span class="text-gray-400 text-[13px] font-bold">Belum Waktunya</span>
+        </button>
+        @endif
         @endif
 
         {{-- Return Button --}}

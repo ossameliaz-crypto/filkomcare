@@ -32,12 +32,40 @@ Route::middleware('guest')->group(function () {
 // Protected Routes (Hanya bisa diakses setelah login)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
+        // Cek notifikasi konsultasi hari ini
+        $today = \Carbon\Carbon::now()->format('Y-m-d');
+        $consultations = \App\Models\Consultation::where('user_id', \Illuminate\Support\Facades\Auth::id())
+            ->where('date', $today)
+            ->whereIn('status', ['pending', 'approved', 'Menunggu', 'Diproses'])
+            ->get();
+            
+        foreach ($consultations as $c) {
+            $notifTitle = 'Sesi Konseling Hari Ini';
+            // Cek apakah sudah ada notifikasi serupa hari ini
+            $exists = \App\Models\Notification::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                ->where('title', $notifTitle)
+                ->whereDate('created_at', \Carbon\Carbon::today())
+                ->exists();
+                
+            if (!$exists) {
+                \App\Models\Notification::create([
+                    'user_id' => \Illuminate\Support\Facades\Auth::id(),
+                    'title' => $notifTitle,
+                    'message' => 'Anda memiliki sesi konseling hari ini jam ' . $c->time . '. Pastikan Anda hadir tepat waktu. Silakan cek detail di menu Konsultasi.',
+                    'type' => 'schedule'
+                ]);
+            }
+        }
+        
         return view('dashboard');
     })->name('dashboard');
     
     Route::get('/konsultasi', [ConsultationController::class, 'index'])->name('consultation.index');
     Route::post('/konsultasi', [ConsultationController::class, 'store'])->name('consultation.store');
     Route::get('/konsultasi/detail', [ConsultationController::class, 'detail'])->name('consultation.detail');
+    
+    // SOS / Panic Button
+    Route::post('/sos', [ConsultationController::class, 'sos'])->name('sos.submit');
     
     Route::get('/riwayat', [ConsultationController::class, 'history'])->name('history.index');
     Route::get('/riwayat/{id}', [ConsultationController::class, 'showHistory'])->name('history.show');

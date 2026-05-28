@@ -1,4 +1,28 @@
-<div x-data="{ sosOpen: false }" 
+<div x-data="{ 
+        sosOpen: false,
+        async submitSos(type) {
+            try {
+                const response = await fetch('{{ route('sos.submit') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.is_working_hours) {
+                    if (type === 'wa') window.open('https://wa.me/6281803805321', '_blank');
+                    if (type === 'tel') window.open('tel:+6281803805321', '_self');
+                } else {
+                    alert('Layanan di luar jam operasional (09:00 - 17:00 WIB). Data darurat Anda telah kami catat dan akan kami tindaklanjuti pada jam kerja.');
+                }
+                this.sosOpen = false;
+            } catch(e) {
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            }
+        }
+     }" 
      @open-sos.window="sosOpen = true"
      @keydown.escape.window="sosOpen = false"
      class="relative z-[100]" 
@@ -40,7 +64,7 @@
             </p>
 
             {{-- WhatsApp Button --}}
-            <a href="https://wa.me/6281803805321" target="_blank" class="w-full flex items-center justify-between p-4 bg-[#f0f7f2] border border-[#d2e8d8] rounded-2xl mb-3 hover:bg-[#e4f2e8] transition group">
+            <a href="#" @click.prevent="submitSos('wa')" class="w-full flex items-center justify-between p-4 bg-[#f0f7f2] border border-[#d2e8d8] rounded-2xl mb-3 hover:bg-[#e4f2e8] transition group">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 bg-[#3a964a] rounded-full flex items-center justify-center text-white shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
@@ -54,7 +78,7 @@
             </a>
 
             {{-- Phone Button --}}
-            <a href="tel:+6281803805321" class="w-full flex items-center justify-between p-4 bg-[#fdf2f3] border border-[#f5d7d9] rounded-2xl mb-5 hover:bg-[#fae6e8] transition group">
+            <a href="#" @click.prevent="submitSos('tel')" class="w-full flex items-center justify-between p-4 bg-[#fdf2f3] border border-[#f5d7d9] rounded-2xl mb-5 hover:bg-[#fae6e8] transition group">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 bg-[#df4a56] rounded-full flex items-center justify-center text-white shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>

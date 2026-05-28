@@ -1,9 +1,9 @@
-@extends('layouts.mobile-emulator')
+﻿@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Preferensi Notifikasi')
 
 @section('content')
-<div class="relative w-full h-[844px] bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="{ notifStatus: true, notifSchedule: true, notifSystem: true }">
+<div class="relative w-full h-full min-h-[100dvh] md:min-h-0 bg-[#f8f9fa] overflow-hidden flex flex-col" x-data="{ notifStatus: true, notifSchedule: true, notifSystem: true }">
     
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-6 flex items-center gap-4 z-10 bg-white border-b border-gray-100 shadow-sm">
