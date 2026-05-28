@@ -8,10 +8,10 @@
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-4 flex items-center justify-between z-10 bg-white">
         <div class="flex items-center gap-4">
-            <a href="{{ route('dashboard') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
+            <a href="{{ route('dashboard') }}" class="text-[#3d4a5e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
-            <h1 class="text-[#1a1a2e] text-[20px] font-bold">Notification</h1>
+            <h1 class="text-[#3d4a5e] text-[20px] font-bold">Notification</h1>
         </div>
 
         @if($notifications->where('is_read', false)->count() > 0)
@@ -51,7 +51,7 @@
                     {{-- Text --}}
                     <div class="flex-1 min-w-0">
                         <div class="flex items-start justify-between gap-2 mb-0.5">
-                            <h3 class="text-[#1a1a2e] text-[13px] font-bold leading-tight">{{ $notif->title }}</h3>
+                            <h3 class="text-[#3d4a5e] text-[15px] font-bold leading-tight">{{ $notif->title }}</h3>
                             <div class="flex items-center gap-1.5 shrink-0">
                                 <span class="text-gray-400 text-[11px]">{{ $notif->time_ago }}</span>
                                 <span class="w-2 h-2 rounded-full shrink-0 {{ !$notif->is_read ? 'bg-[#87B4B8]' : 'bg-[#d1d5db]' }}"></span>

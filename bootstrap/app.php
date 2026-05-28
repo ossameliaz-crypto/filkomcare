@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'webhook/update-status',
         ]);
+        $middleware->encryptCookies(except: [
+            'onboarding_seen',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

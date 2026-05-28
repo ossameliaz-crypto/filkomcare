@@ -4,91 +4,7 @@
 @section('page-name', 'Konsultasi')
 
 @section('content')
-<div x-data="{
-    tab: 'online',
-    selectedDate: 15,
-    selectedTime: '10:30 WIB',
-    selectedOnlineService: 'Chat Konseling',
-    selectedOfflineService: 'Konselor Sebaya',
-    timeModalOpen: false,
-    serviceModalOpen: false,
-    
-    selectedDate: null,
-    selectedFullDate: null,
-    dates: [],
-    bookedSchedules: @json($bookedSchedules ?? []),
-    
-    isBooked(timeStr) {
-        return this.bookedSchedules.some(s => s.date === this.selectedFullDate && s.time === timeStr);
-    },
-
-    autoSelectAvailableTime() {
-        let available = this.times.find(t => !this.isBooked(t));
-        this.selectedTime = available ? available : 'Penuh';
-    },
-    
-    init() {
-        this.generateDates(new Date());
-    },
-    
-    generateDates(startDate) {
-        this.dates = [];
-        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu'];
-        
-        let d = new Date(startDate);
-        // Jika mulai dari akhir pekan, geser ke Senin
-        if (d.getDay() === 0) d.setDate(d.getDate() + 1); // Minggu -> Senin
-        if (d.getDay() === 6) d.setDate(d.getDate() + 2); // Sabtu -> Senin
-
-        let addedDays = 0;
-        
-        while (addedDays < 7) {
-            let currentDay = d.getDay();
-            
-            // Hanya Senin(1) sampai Jumat(5)
-            if (currentDay !== 0 && currentDay !== 6) {
-                let isActualToday = (d.toDateString() === new Date().toDateString());
-                let dayName = isActualToday ? 'Hari ini' : dayNames[currentDay];
-                
-                let localDate = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-                
-                this.dates.push({
-                    day: dayName,
-                    date: d.getDate(),
-                    fullDate: localDate
-                });
-                addedDays++;
-            }
-            d.setDate(d.getDate() + 1);
-        }
-        this.selectedDate = this.dates[0].date;
-        this.selectedFullDate = this.dates[0].fullDate;
-        this.autoSelectAvailableTime();
-    },
-    
-    updateDatesFromPicker(val) {
-        if(!val) return;
-        this.generateDates(new Date(val));
-    },
-    
-    times: [
-        '09:00 WIB', '09:30 WIB', '10:00 WIB',
-        '10:30 WIB', '11:00 WIB', '11:30 WIB',
-        '13:00 WIB', '13:30 WIB', '14:00 WIB',
-        '14:30 WIB', '15:00 WIB', '15:30 WIB',
-        '16:00 WIB', '16:30 WIB', '17:00 WIB'
-    ],
-    
-    onlineServices: [
-        'Chat Konseling',
-        'Telepon Konseling'
-    ],
-    offlineServices: [
-        'Konselor Sebaya',
-        'UKLT Filkom',
-        'DWP Filkom'
-    ]
-}" class="relative w-full h-[844px] bg-white overflow-hidden pb-[70px]">
+<div x-data="consultationApp()" class="relative w-full h-[844px] bg-white overflow-hidden pb-[70px]">
 
     {{-- Content Area (Scrollable) --}}
     <form action="{{ route('consultation.store') }}" method="POST" class="h-full overflow-y-auto hide-scrollbar px-6 pt-12 pb-8">
@@ -109,7 +25,7 @@
         {{-- Tanggal Selector --}}
         <div class="mb-6">
             <div class="flex justify-between items-center mb-3">
-                <span class="text-[#64748b] text-[13px] font-medium">Pilih berdasarkan jadwal</span>
+                <span class="text-[#64748b] text-[14px] font-medium">Pilih berdasarkan jadwal</span>
                 <div class="relative w-5 h-5 flex items-center justify-center">
                     <input type="date" x-model="selectedFullDate" @change="updateDatesFromPicker($event.target.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 hover:scale-110 transition-transform" style="-webkit-appearance: none;">
                     <svg class="text-[#a1c4c8] relative z-0 transition-all hover:scale-110" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -131,7 +47,7 @@
 
         {{-- Waktu Konseling --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Pilih waktu konseling</span>
+            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Pilih waktu konseling</span>
             <button @click="timeModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
                 <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="selectedTime"></span>
                 <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -140,7 +56,7 @@
 
         {{-- Pilih Layanan --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Pilih layanan</span>
+            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Pilih layanan</span>
             <button @click="serviceModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
                 <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="tab === 'online' ? selectedOnlineService : selectedOfflineService"></span>
                 <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -149,13 +65,13 @@
 
         {{-- Topik Konsultasi --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Topik Konsultasi</span>
+            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Topik Konsultasi</span>
             <input type="text" name="topic" required placeholder="Contoh: Masalah Akademik" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
         {{-- Deskripsi Singkat --}}
         <div class="mb-8">
-            <span class="block text-[#8e98a8] text-[13px] font-medium mb-2">Deskripsi Singkat</span>
+            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Deskripsi Singkat</span>
             <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
@@ -191,7 +107,7 @@
             
             <div class="w-[40px] h-[4px] bg-gray-200 rounded-full mx-auto mb-6"></div>
             
-            <h3 class="font-bold text-[#1a1a2e] text-[15px] mb-1">Waktu Konseling</h3>
+            <h3 class="font-bold text-[#3d4a5e] text-[15px] mb-1">Waktu Konseling</h3>
             <p class="text-[13px] text-[#3d4a5e] mb-6">Pagi - Siang - Sore</p>
             
             <div class="grid grid-cols-3 gap-3 mb-8">
@@ -228,13 +144,13 @@
             
             <div class="w-[40px] h-[4px] bg-gray-200 rounded-full mx-auto mb-6"></div>
             
-            <h3 class="font-bold text-[#1a1a2e] text-[14px] mb-6" x-text="tab === 'online' ? 'Layanan online yang dipilih' : 'Layanan tatap muka yang dipilih'"></h3>
+            <h3 class="font-bold text-[#3d4a5e] text-[15px] mb-6" x-text="tab === 'online' ? 'Layanan online yang dipilih' : 'Layanan tatap muka yang dipilih'"></h3>
             
             <div class="flex flex-col gap-5 mb-8">
                 <template x-if="tab === 'online'">
                     <template x-for="service in onlineServices" :key="service">
                         <label class="flex items-center justify-between cursor-pointer">
-                            <span class="text-[14px] text-[#1a1a2e]" x-text="service"></span>
+                            <span class="text-[14px] text-[#3d4a5e]" x-text="service"></span>
                             <input type="radio" name="service" :value="service" x-model="selectedOnlineService" class="hidden">
                             <div class="w-5 h-5 rounded-full border flex items-center justify-center"
                                  :class="{'border-[#3d4a5e]': selectedOnlineService === service, 'border-gray-300': selectedOnlineService !== service}">
@@ -247,7 +163,7 @@
                 <template x-if="tab === 'tatap_muka'">
                     <template x-for="service in offlineServices" :key="service">
                         <label class="flex items-center justify-between cursor-pointer">
-                            <span class="text-[14px] text-[#1a1a2e]" x-text="service"></span>
+                            <span class="text-[14px] text-[#3d4a5e]" x-text="service"></span>
                             <input type="radio" name="service" :value="service" x-model="selectedOfflineService" class="hidden">
                             <div class="w-5 h-5 rounded-full border flex items-center justify-center"
                                  :class="{'border-[#3d4a5e]': selectedOfflineService === service, 'border-gray-300': selectedOfflineService !== service}">
@@ -265,6 +181,96 @@
     </div>
 
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('consultationApp', () => ({
+            tab: 'online',
+            selectedDate: 15,
+            selectedTime: '10:30 WIB',
+            selectedOnlineService: 'Chat Konseling',
+            selectedOfflineService: 'Konselor Sebaya',
+            timeModalOpen: false,
+            serviceModalOpen: false,
+            
+            selectedDate: null,
+            selectedFullDate: null,
+            dates: [],
+            bookedSchedules: @json($bookedSchedules ?? []),
+            
+            isBooked(timeStr) {
+                return this.bookedSchedules.some(s => s.date === this.selectedFullDate && s.time === timeStr);
+            },
+
+            autoSelectAvailableTime() {
+                let available = this.times.find(t => !this.isBooked(t));
+                this.selectedTime = available ? available : 'Penuh';
+            },
+            
+            init() {
+                this.generateDates(new Date());
+            },
+            
+            generateDates(startDate) {
+                this.dates = [];
+                const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu'];
+                
+                let d = new Date(startDate);
+                // Jika mulai dari akhir pekan, geser ke Senin
+                if (d.getDay() === 0) d.setDate(d.getDate() + 1); // Minggu -> Senin
+                if (d.getDay() === 6) d.setDate(d.getDate() + 2); // Sabtu -> Senin
+
+                let addedDays = 0;
+                
+                while (addedDays < 7) {
+                    let currentDay = d.getDay();
+                    
+                    // Hanya Senin(1) sampai Jumat(5)
+                    if (currentDay !== 0 && currentDay !== 6) {
+                        let isActualToday = (d.toDateString() === new Date().toDateString());
+                        let dayName = isActualToday ? 'Hari ini' : dayNames[currentDay];
+                        
+                        let localDate = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+                        
+                        this.dates.push({
+                            day: dayName,
+                            date: d.getDate(),
+                            fullDate: localDate
+                        });
+                        addedDays++;
+                    }
+                    d.setDate(d.getDate() + 1);
+                }
+                this.selectedDate = this.dates[0].date;
+                this.selectedFullDate = this.dates[0].fullDate;
+                this.autoSelectAvailableTime();
+            },
+            
+            updateDatesFromPicker(val) {
+                if(!val) return;
+                this.generateDates(new Date(val));
+            },
+            
+            times: [
+                '09:00 WIB', '09:30 WIB', '10:00 WIB',
+                '10:30 WIB', '11:00 WIB', '11:30 WIB',
+                '13:00 WIB', '13:30 WIB', '14:00 WIB',
+                '14:30 WIB', '15:00 WIB', '15:30 WIB',
+                '16:00 WIB', '16:30 WIB', '17:00 WIB'
+            ],
+            
+            onlineServices: [
+                'Chat Konseling',
+                'Telepon Konseling'
+            ],
+            offlineServices: [
+                'Konselor Sebaya',
+                'UKLT Filkom',
+                'DWP Filkom'
+            ]
+        }));
+    });
+</script>
 @endsection
 
 @push('styles')

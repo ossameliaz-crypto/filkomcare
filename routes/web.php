@@ -12,6 +12,7 @@ Route::middleware('guest')->group(function () {
     // Onboarding — landing page pertama kali
     Route::get('/', [AuthController::class, 'landing'])->name('landing');
     Route::get('/onboarding', [AuthController::class, 'showOnboarding'])->name('onboarding');
+    Route::get('/onboarding-complete', [AuthController::class, 'completeOnboarding'])->name('onboarding.complete');
 
     // Auth Routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -24,6 +25,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/verify/{user}', [AuthController::class, 'showVerification'])->name('verify');
     Route::post('/verify', [AuthController::class, 'verify'])->name('verify.submit');
     Route::post('/verify/resend/{user}', [AuthController::class, 'resendCode'])->name('verify.resend');
+    Route::post('/verify/check-code', [AuthController::class, 'checkCode'])->name('verify.checkCode');
+    Route::post('/verify/auto-resend', [AuthController::class, 'autoResendCode'])->name('verify.autoResend');
 });
 
 // Protected Routes (Hanya bisa diakses setelah login)

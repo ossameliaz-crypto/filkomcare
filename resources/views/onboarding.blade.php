@@ -7,14 +7,14 @@
     <div class="w-full min-h-screen bg-white flex flex-col relative overflow-hidden" id="onboardingContainer">
 
         {{-- Slides Container --}}
-        <div class="flex-1 relative" id="slidesWrapper">
+        <div class="w-full h-screen relative" id="slidesWrapper">
 
             {{-- ===== Slide 1: Splash Logo ===== --}}
             <div class="onboarding-slide active" data-slide="0">
                 {{-- Skip --}}
                 <div class="skip-btn-wrap">
                     <button type="button" class="skip-btn" onclick="skipOnboarding()">
-                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
                 </div>
 
@@ -30,7 +30,7 @@
                 {{-- Skip --}}
                 <div class="skip-btn-wrap">
                     <button type="button" class="skip-btn" onclick="skipOnboarding()">
-                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
                 </div>
 
@@ -50,12 +50,12 @@
                 {{-- Skip --}}
                 <div class="skip-btn-wrap">
                     <button type="button" class="skip-btn" onclick="skipOnboarding()">
-                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        Skip <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
                 </div>
 
-                <div class="slide-content">
-                    <div class="slide-illustration">
+                <div class="slide-content" style="padding-top: 50px;">
+                    <div class="slide-illustration" style="max-width: 250px; margin-bottom: 60px;">
                         <img src="{{ asset('images/onboarding-meditation.png') }}" alt="Buat Dirimu Tenang">
                     </div>
                     <div class="slide-text">
@@ -68,11 +68,11 @@
         </div>
 
         {{-- Bottom Section (Button + Dots) --}}
-        <div class="onboarding-bottom">
+        <div class="onboarding-bottom absolute bottom-0 left-0 w-full z-10">
             {{-- Lanjut Button --}}
             <button type="button" id="nextBtn" class="lanjut-btn" onclick="nextSlide()">
                 Lanjut
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
 
             {{-- Dot Indicators --}}
@@ -138,18 +138,17 @@
         color: #87B4B8;
     }
 
-    /* Slide content */
     .slide-content {
-        flex: 1;
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 80px 32px 0;
+        padding: 0 32px 100px;
     }
     .slide-center {
-        justify-content: center;
-        padding-top: 0;
+        padding: 40px 32px 0;
     }
 
     /* Splash Logo */
@@ -157,7 +156,8 @@
         animation: logoAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
     .splash-logo {
-        width: 200px;
+        width: 320px;
+        max-width: 90vw;
         height: auto;
         object-fit: contain;
     }
@@ -170,7 +170,7 @@
     .slide-illustration {
         width: 100%;
         max-width: 280px;
-        margin-bottom: 32px;
+        margin-bottom: 24px;
         animation: illustrationFloat 3s ease-in-out infinite;
     }
     .slide-illustration img {
@@ -189,14 +189,14 @@
         padding: 0 8px;
     }
     .slide-title {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
         color: #3d4a5e;
         margin: 0 0 10px;
         line-height: 1.3;
     }
     .slide-subtitle {
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 300;
         color: #9ca3af;
         line-height: 1.6;
@@ -207,7 +207,7 @@
 
     /* ===== Bottom Section ===== */
     .onboarding-bottom {
-        padding: 20px 28px 36px;
+        padding: 0 28px 24px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -223,7 +223,7 @@
         gap: 6px;
         background: #87B4B8;
         color: #ffffff;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         font-family: 'Poppins', sans-serif;
         padding: 16px;
@@ -248,16 +248,16 @@
         align-items: center;
     }
     .dot {
-        width: 8px;
-        height: 8px;
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
-        background: #d1d5db;
+        background: #cbd5e1;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .dot.active {
-        width: 24px;
+        width: 20px;
         border-radius: 4px;
-        background: #3d4a5e;
+        background: #1a1a2e;
     }
 </style>
 @endpush
@@ -313,11 +313,8 @@
     };
 
     window.skipOnboarding = function() {
-        // Mark onboarding as seen via cookie
-        document.cookie = 'onboarding_seen=1; path=/; max-age=' + (365 * 24 * 60 * 60);
-        
-        // Redirect to login
-        window.location.href = '{{ url("/login") }}';
+        // Redirect to complete route which sets session and goes to login
+        window.location.href = '{{ route("onboarding.complete") }}';
     };
 
     function updateDots() {

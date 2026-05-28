@@ -11,7 +11,7 @@
     <div class="bg-[#5d687c] w-full pt-16 pb-16 px-6 rounded-b-[32px] relative z-10">
         {{-- Greeting Row --}}
         <div class="flex justify-between items-center mb-2">
-            <h1 class="text-white text-[19px] font-semibold flex items-center gap-2">
+            <h1 class="text-white text-[22px] font-semibold flex items-center gap-2">
                 👋 Hai, {{ explode(' ', Auth::user()->name ?? 'Mahasiswa')[0] }}
             </h1>
             <a href="{{ route('notifications.index') }}" class="relative block">
@@ -41,7 +41,7 @@
                 </svg>
             </div>
             <div>
-                <h3 class="text-[#3d4a5e] font-semibold text-[14px]">Waktu Layanan</h3>
+                <h3 class="text-[#3d4a5e] font-semibold text-[15px]">Waktu Layanan</h3>
                 <div class="flex items-center gap-3 mt-1 text-[11px] text-[#5d687c]">
                     <div class="flex items-center gap-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -58,7 +58,7 @@
 
     {{-- ===== Layanan Filkom Care ===== --}}
     <div class="px-6 mb-8">
-        <h2 class="text-[#1a1a2e] text-[16px] font-bold mb-4">Layanan Filkom Care</h2>
+        <h2 class="text-[#3d4a5e] text-[20px] font-bold mb-4">Layanan Filkom Care</h2>
         
         <div class="flex gap-4 mb-4">
             {{-- Chat Konseling --}}
@@ -66,7 +66,7 @@
                 <div class="w-10 h-10 rounded-full bg-[#dcf2f5] flex items-center justify-center mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
-                <h3 class="text-[#3d4a5e] font-bold text-[13px] mb-1">Chat Konseling</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">Chat Konseling</h3>
                 <p class="text-[10px] text-gray-500 leading-tight">Konsultasi via chat secara online</p>
             </div>
             
@@ -75,7 +75,7 @@
                 <div class="w-10 h-10 rounded-full bg-[#faefe5] flex items-center justify-center mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </div>
-                <h3 class="text-[#3d4a5e] font-bold text-[13px] mb-1">Telepon Konseling</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">Telepon Konseling</h3>
                 <p class="text-[10px] text-gray-500 leading-tight">Konsultasi via telepon secara online</p>
             </div>
         </div>
@@ -83,7 +83,7 @@
         {{-- Konsultasi Tatap Muka --}}
         <div class="bg-[#eef1f5] border border-[#d6dce3] rounded-2xl p-4 shadow-sm flex items-center justify-between relative overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer">
             <div class="relative z-10 w-[60%]">
-                <h3 class="text-[#3d4a5e] font-bold text-[14px] mb-1">Konsultasi Tatap Muka</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">Konsultasi Tatap Muka</h3>
                 <p class="text-[11px] text-gray-600 leading-tight">Buat janji konseling langsung di kampus</p>
             </div>
             <img src="{{ asset('images/home_consultation.png') }}" class="absolute right-2 bottom-0 h-[90%] object-contain" alt="Consultation">
@@ -92,7 +92,7 @@
 
     {{-- ===== Pilihan Konselor Terbaik ===== --}}
     <div class="mb-10">
-        <h2 class="px-6 text-[#1a1a2e] text-[16px] font-bold mb-4">Pilihan Konselor Terbaik</h2>
+        <h2 class="px-6 text-[#3d4a5e] text-[20px] font-bold mb-4">Pilihan Konselor Terbaik</h2>
         
         <div class="px-6 relative overflow-hidden">
             <div class="flex transition-transform duration-500 ease-in-out" id="counselorTrack" style="transform: translateX(0%);">
@@ -103,7 +103,7 @@
                         <img src="{{ asset('images/counselor_sebaya.jpg') }}" class="w-[100px] h-[100px] rounded-2xl object-cover" alt="Konselor Sebaya">
                         <div class="flex-1 flex flex-col justify-between h-[100px]">
                             <div>
-                                <h3 class="text-[#3d4a5e] font-bold text-[14px] mb-1">Konselor Sebaya</h3>
+                                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">Konselor Sebaya</h3>
                                 <p class="text-[10px] text-gray-500 leading-snug">Mahasiswa Filkom Aktif yang sudah diberi upgrading sebagai konselor</p>
                             </div>
                             <div class="flex justify-end mt-auto">
@@ -121,7 +121,7 @@
                         <img src="{{ asset('images/counselor_ulkt.jpg') }}" class="w-[100px] h-[100px] rounded-2xl object-cover" alt="ULKT">
                         <div class="flex-1 flex flex-col justify-between h-[100px]">
                             <div>
-                                <h3 class="text-[#3d4a5e] font-bold text-[14px] mb-1">ULKT</h3>
+                                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">ULKT</h3>
                                 <p class="text-[10px] text-gray-500 leading-snug">Unit layanan konseling terpadu</p>
                             </div>
                             <div class="flex justify-end mt-auto">
@@ -139,7 +139,7 @@
                         <img src="{{ asset('images/counselor_dwp.jpg') }}" class="w-[100px] h-[100px] rounded-2xl object-cover" alt="DWP Filkom">
                         <div class="flex-1 flex flex-col justify-between h-[100px]">
                             <div>
-                                <h3 class="text-[#3d4a5e] font-bold text-[14px] mb-1">DWP Filkom</h3>
+                                <h3 class="text-[#3d4a5e] font-bold text-[15px] mb-1">DWP Filkom</h3>
                                 <p class="text-[10px] text-gray-500 leading-snug">Dharma Wanita Persatuan Filkom</p>
                             </div>
                             <div class="flex justify-end mt-auto">
@@ -157,19 +157,19 @@
 
     {{-- ===== 3 Langkah Mudah ===== --}}
     <div class="mb-10">
-        <h2 class="px-6 text-[#1a1a2e] text-[16px] font-bold mb-6 text-center leading-snug">3 Langkah Mudah Menjadwalkan<br>Konseling Pertamamu</h2>
+        <h2 class="px-6 text-[#3d4a5e] text-[20px] font-bold mb-6 leading-snug tracking-tight">3 Langkah Konseling</h2>
         
         <div class="grid grid-cols-3 gap-3 px-6">
             <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Sadari masalah utamamu</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Pahami Keluhan</h3>
                 <img src="{{ asset('images/home_step1.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 1">
             </div>
             <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Pilih layanan yang sesuai</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Pilih Layanan</h3>
                 <img src="{{ asset('images/home_step2.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 2">
             </div>
             <div class="bg-[#F1E9E2] rounded-2xl p-3 flex flex-col items-center text-center justify-between shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Jadwalkan sesi konsultasi</h3>
+                <h3 class="text-[#3d4a5e] font-bold text-[11px] mb-2 min-h-[32px] leading-tight flex items-center justify-center w-full">Buat jadwal konseling</h3>
                 <img src="{{ asset('images/home_step3.png') }}" class="w-[65px] h-[65px] object-contain" alt="Step 3">
             </div>
         </div>
@@ -181,7 +181,7 @@
             <div class="flex items-center justify-between h-full z-10 relative">
                 {{-- Text Content --}}
                 <div class="flex-1 pr-2 z-20">
-                    <h2 class="text-white text-[16px] font-bold mb-1 leading-tight">Butuh bantuan darurat?</h2>
+                    <h2 class="text-white text-[20px] font-bold mb-1 leading-tight">Butuh bantuan darurat?</h2>
                     <p class="text-[#e2e8f0] text-[12px] mb-4">Dapatkan bantuan sekarang!</p>
                     
                     <button @click="$dispatch('open-sos')" class="bg-[#bce8ee] text-[#3d4a5e] font-bold text-[13px] py-2 px-5 rounded-xl shadow-md hover:bg-[#a6dce4] active:scale-95 transition-all w-max hover:shadow-lg">
@@ -190,7 +190,7 @@
                 </div>
 
                 {{-- Image --}}
-                <div class="absolute -right-2 -bottom-6 w-[140px] z-10 drop-shadow-xl pointer-events-none">
+                <div class="absolute -right-2 -bottom-5 w-[140px] z-10 drop-shadow-xl pointer-events-none">
                     <img src="{{ asset('images/home_emergency.png') }}" class="w-full h-auto drop-shadow-xl" alt="Emergency">
                 </div>
             </div>

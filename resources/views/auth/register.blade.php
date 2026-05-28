@@ -17,8 +17,8 @@
 
             {{-- Title Section --}}
             <div class="mb-6">
-                <h1 class="text-[26px] font-bold text-slate-dark leading-tight">Sign Up</h1>
-                <p class="text-[13px] text-gray-400 mt-1 font-light">Daftar ke akun FilkomCare</p>
+                <h1 class="text-[24px] font-bold text-[#3d4a5e] leading-tight">Sign Up</h1>
+                <p class="text-[15px] text-gray-400 mt-1 font-light">Daftar ke akun FilkomCare</p>
             </div>
 
             {{-- Form --}}
@@ -41,7 +41,7 @@
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 transition-all duration-200 keyboard-input-wrap">
                         <input type="text" name="identifier" value="{{ old('identifier') }}" required
                             placeholder="Input your NIM number or email" 
-                            class="w-full bg-transparent text-slate-dark placeholder-gray-400 text-[13px] focus:outline-none font-normal keyboard-input"
+                            class="w-full bg-transparent text-[#3d4a5e] placeholder-gray-400 text-[13px] focus:outline-none font-normal keyboard-input"
                             data-keyboard="alpha"
                             id="identifierInput"
                             autocomplete="off">
@@ -54,10 +54,10 @@
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 flex items-center transition-all duration-200 keyboard-input-wrap">
                         <input type="password" name="password" id="passwordInput" required minlength="8"
                             placeholder="Input your password" 
-                            class="w-full bg-transparent text-slate-dark placeholder-gray-400 text-[13px] focus:outline-none font-normal flex-1 keyboard-input"
+                            class="w-full bg-transparent text-[#3d4a5e] placeholder-gray-400 text-[13px] focus:outline-none font-normal flex-1 keyboard-input"
                             data-keyboard="alpha"
                             autocomplete="off">
-                        <button type="button" onclick="togglePassword('passwordInput', 'eyeIcon1', 'eyeOffIcon1')" class="ml-2 text-gray-400 hover:text-slate-dark transition focus:outline-none">
+                        <button type="button" onclick="togglePassword('passwordInput', 'eyeIcon1', 'eyeOffIcon1')" class="ml-2 text-gray-400 hover:text-[#3d4a5e] transition focus:outline-none">
                             <svg id="eyeIcon1" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -74,10 +74,10 @@
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 flex items-center transition-all duration-200 keyboard-input-wrap">
                         <input type="password" name="password_confirmation" id="confirmPasswordInput" required minlength="8"
                             placeholder="Confirm your password" 
-                            class="w-full bg-transparent text-slate-dark placeholder-gray-400 text-[13px] focus:outline-none font-normal flex-1 keyboard-input"
+                            class="w-full bg-transparent text-[#3d4a5e] placeholder-gray-400 text-[13px] focus:outline-none font-normal flex-1 keyboard-input"
                             data-keyboard="alpha"
                             autocomplete="off">
-                        <button type="button" onclick="togglePassword('confirmPasswordInput', 'eyeIcon2', 'eyeOffIcon2')" class="ml-2 text-gray-400 hover:text-slate-dark transition focus:outline-none">
+                        <button type="button" onclick="togglePassword('confirmPasswordInput', 'eyeIcon2', 'eyeOffIcon2')" class="ml-2 text-gray-400 hover:text-[#3d4a5e] transition focus:outline-none">
                             <svg id="eyeIcon2" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -103,7 +103,7 @@
         <div class="w-full text-center pb-10 pt-6">
             <p class="text-[12px] text-gray-400 font-normal">
                 Kamu sudah punya akun? 
-                <a href="{{ url('/login') }}" class="text-slate-dark font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Login now</a>
+                <a href="{{ url('/login') }}" class="text-[#3d4a5e] font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Login now</a>
             </p>
         </div>
 

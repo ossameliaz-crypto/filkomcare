@@ -9,7 +9,7 @@
         
         {{-- Back Button --}}
         <div class="px-5 pt-14 pb-2">
-            <a href="{{ url('/register') }}" class="inline-flex items-center text-slate-dark hover:text-[#87B4B8] transition-all transform hover:-translate-x-1">
+            <a href="{{ url('/register') }}" class="inline-flex items-center text-[#3d4a5e] hover:text-[#87B4B8] transition-all transform hover:-translate-x-1">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"/>
                 </svg>
@@ -21,8 +21,8 @@
 
             {{-- Title Section --}}
             <div class="mb-6">
-                <h1 class="text-[26px] font-bold text-slate-dark leading-tight">Verifikasi</h1>
-                <p class="text-[13px] text-gray-400 mt-1 font-light">Kode telah dikirimkan ke email</p>
+                <h1 class="text-[24px] font-bold text-[#3d4a5e] leading-tight">Verifikasi</h1>
+                <p class="text-[15px] text-gray-400 mt-1 font-light">Kode telah dikirimkan ke email</p>
             </div>
 
             {{-- OTP Form --}}
@@ -51,12 +51,11 @@
                     <p class="text-[11px] text-gray-400 font-light" id="countdownText">
                         Tunggu <span id="countdown">60</span> detik sebelum meminta kode lainnya
                     </p>
-                    <form action="{{ route('verify.resend', $user->id) }}" method="POST" id="resendForm" class="hidden">
-                        @csrf
-                        <button type="submit" class="text-[11px] text-[#87B4B8] font-semibold hover:text-[#5A8A8E] transition-colors">
+                    <div id="resendForm" class="hidden">
+                        <button type="button" id="resendBtn" class="text-[11px] text-[#87B4B8] font-semibold hover:text-[#5A8A8E] transition-colors">
                             Kirim ulang kode verifikasi
                         </button>
-                    </form>
+                    </div>
                     @if (session('success'))
                         <p class="text-[11px] text-green-600 mt-1">{{ session('success') }}</p>
                     @endif
@@ -76,7 +75,7 @@
         <div class="w-full text-center pb-10 pt-6">
             <p class="text-[12px] text-gray-400 font-normal">
                 Kamu sudah punya akun? 
-                <a href="{{ url('/login') }}" class="text-slate-dark font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Login now</a>
+                <a href="{{ url('/login') }}" class="text-[#3d4a5e] font-bold hover:text-[#87B4B8] transition-all inline-block hover:scale-105 ml-1">Login now</a>
             </p>
         </div>
 
@@ -306,6 +305,8 @@
     let otpValues = ['', '', '', '', '', ''];
     let currentIndex = 0;
     let keyboardVisible = false;
+    let isCodeExpired = false;
+    let userId = document.querySelector('input[name="user_id"]')?.value;
 
     // Prevent keyboard from stealing focus
     keyboard.addEventListener('mousedown', (e) => {
@@ -350,6 +351,104 @@
         boxes.forEach(b => b.classList.remove('active'));
     }
 
+    // ===== Real-time Kode Validation =====
+    async function validateCodeRealTime(code) {
+        if (code.length !== 6) return;
+
+        try {
+            const response = await fetch('{{ route("verify.checkCode") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]')?.content || 
+                                   document.querySelector('input[name="_token"]')?.value,
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    code: code,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.expired) {
+                isCodeExpired = true;
+                submitBtn.disabled = true;
+                submitBtn.classList.add('otp-btn-disabled');
+                submitBtn.classList.remove('otp-btn-enabled');
+                submitBtn.textContent = 'Kode Expired - Mengirim ulang...';
+                
+                // Auto-resend kode baru
+                setTimeout(() => {
+                    autoResendCode();
+                }, 1000);
+            } else if (data.valid) {
+                isCodeExpired = false;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('otp-btn-disabled');
+                submitBtn.classList.add('otp-btn-enabled');
+                submitBtn.textContent = 'Sign Up Now';
+                console.log('Code is valid! Button enabled');
+            } else {
+                isCodeExpired = false;
+                submitBtn.disabled = true;
+                submitBtn.classList.add('otp-btn-disabled');
+                submitBtn.classList.remove('otp-btn-enabled');
+                submitBtn.textContent = 'Kode Tidak Valid';
+                console.log('Code is invalid');
+            }
+        } catch (error) {
+            console.error('Error validating code:', error);
+        }
+    }
+
+    // ===== Auto-Resend Kode Saat Expired =====
+    async function autoResendCode() {
+        try {
+            const response = await fetch('{{ route("verify.autoResend") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]')?.content || 
+                                   document.querySelector('input[name="_token"]')?.value,
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Reset OTP fields
+                otpValues = ['', '', '', '', '', ''];
+                boxes.forEach(box => {
+                    box.textContent = '';
+                    box.classList.remove('filled');
+                });
+                hiddenInput.value = '';
+                
+                // Reset timer
+                resetCountdownTimer();
+                
+                // Show success message
+                const errorMsg = document.querySelector('[id*="code"]')?.parentElement;
+                if (errorMsg) {
+                    const successMsg = document.createElement('p');
+                    successMsg.className = 'text-[11px] text-green-600 mt-1';
+                    successMsg.textContent = 'Kode verifikasi baru telah dikirim!';
+                    errorMsg.appendChild(successMsg);
+                    setTimeout(() => successMsg.remove(), 3000);
+                }
+                
+                setActiveBox(0);
+                isCodeExpired = false;
+            }
+        } catch (error) {
+            console.error('Error auto-resending code:', error);
+        }
+    }
+
     function updateOTP() {
         const code = otpValues.join('');
         hiddenInput.value = code;
@@ -365,7 +464,7 @@
         });
 
         // Toggle submit button
-        if (code.length === 6 && !code.includes('')) {
+        if (code.length === 6) {
             const allFilled = otpValues.every(v => v !== '');
             if (allFilled) {
                 submitBtn.disabled = false;
@@ -377,6 +476,7 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('otp-btn-disabled');
             submitBtn.classList.remove('otp-btn-enabled');
+            submitBtn.textContent = 'Sign Up Now';
         }
     }
 
@@ -451,19 +551,107 @@
 
     // ===== Countdown Timer =====
     let seconds = 60;
+    let timerInterval = null;
     const countdownEl = document.getElementById('countdown');
     const countdownText = document.getElementById('countdownText');
     const resendForm = document.getElementById('resendForm');
 
-    const timer = setInterval(() => {
-        seconds--;
-        if (countdownEl) countdownEl.textContent = seconds;
-        if (seconds <= 0) {
-            clearInterval(timer);
-            if (countdownText) countdownText.classList.add('hidden');
-            if (resendForm) resendForm.classList.remove('hidden');
+    function startCountdownTimer() {
+        seconds = 60;
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            seconds--;
+            if (countdownEl) countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(timerInterval);
+                if (countdownText) countdownText.classList.add('hidden');
+                if (resendForm) resendForm.classList.remove('hidden');
+            }
+        }, 1000);
+    }
+
+    function resetCountdownTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        if (countdownText) countdownText.classList.remove('hidden');
+        if (resendForm) resendForm.classList.add('hidden');
+        startCountdownTimer();
+    }
+
+    // ===== Resend Button Handler =====
+    const resendBtn = document.getElementById('resendBtn');
+    if (resendBtn) {
+        resendBtn.addEventListener('click', async () => {
+            resendBtn.disabled = true;
+            resendBtn.textContent = 'Mengirim...';
+            
+            try {
+                const response = await fetch('{{ route("verify.autoResend") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]')?.content || 
+                                       document.querySelector('input[name="_token"]')?.value,
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Reset OTP fields
+                    otpValues = ['', '', '', '', '', ''];
+                    boxes.forEach(box => {
+                        box.textContent = '';
+                        box.classList.remove('filled');
+                    });
+                    hiddenInput.value = '';
+                    
+                    // Reset timer
+                    resetCountdownTimer();
+                    
+                    setActiveBox(0);
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = 'Kirim ulang kode verifikasi';
+                } else {
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = 'Gagal mengirim ulang';
+                    setTimeout(() => {
+                        resendBtn.textContent = 'Kirim ulang kode verifikasi';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Error resending code:', error);
+                resendBtn.disabled = false;
+                resendBtn.textContent = 'Kirim ulang kode verifikasi';
+            }
+        });
+    }
+
+    // ===== Form Submission Handler =====
+    otpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log('Form submit triggered');
+        console.log('Button disabled:', submitBtn.disabled);
+        console.log('Code value:', hiddenInput.value);
+        
+        if (submitBtn.disabled) {
+            console.log('Button is disabled, preventing submit');
+            return;
         }
-    }, 1000);
+        
+        // Disable button dan show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verifying...';
+        
+        console.log('Submitting form to:', otpForm.action);
+        // Submit form
+        otpForm.submit();
+    });
+
+    startCountdownTimer();
 
 })();
 </script>

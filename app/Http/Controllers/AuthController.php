@@ -14,8 +14,8 @@ class AuthController extends Controller
 {
     // Landing page — cek apakah user sudah pernah lihat onboarding
     public function landing(Request $request) {
-        // Jika cookie onboarding_seen ada, langsung ke login
-        if ($request->cookie('onboarding_seen')) {
+        // Jika session onboarding_passed ada, langsung ke login
+        if ($request->session()->has('onboarding_passed')) {
             return redirect()->route('login');
         }
 
@@ -28,8 +28,17 @@ class AuthController extends Controller
         return view('onboarding');
     }
 
+    // Tandai onboarding selesai untuk sesi ini
+    public function completeOnboarding(Request $request) {
+        $request->session()->put('onboarding_passed', true);
+        return redirect()->route('login');
+    }
+
     // Menampilkan Halaman Login
-    public function showLogin() {
+    public function showLogin(Request $request) {
+        if (!$request->session()->has('onboarding_passed')) {
+            return redirect()->route('onboarding');
+        }
         return view('auth.login');
     }
 
@@ -74,7 +83,10 @@ class AuthController extends Controller
     }
 
     // Menampilkan Halaman Register
-    public function showRegister() {
+    public function showRegister(Request $request) {
+        if (!$request->session()->has('onboarding_passed')) {
+            return redirect()->route('onboarding');
+        }
         return view('auth.register');
     }
 
@@ -203,8 +215,11 @@ class AuthController extends Controller
         // Hapus semua kode verifikasi user ini
         EmailVerificationCode::where('user_id', $user->id)->delete();
 
-        // [cite: 413]
-        return redirect()->route('login')->with('success', 'Akun berhasil diverifikasi. Selamat datang di ULTKSP FILKOM!');
+        // Login user secara otomatis
+        Auth::login($user, true);
+
+        // Redirect ke dashboard
+        return redirect()->route('dashboard')->with('success', 'Akun berhasil diverifikasi. Selamat datang di ULTKSP FILKOM!');
     }
 
     // Kirim Ulang Kode Verifikasi
@@ -261,5 +276,76 @@ class AuthController extends Controller
 
         // Kirim email
         Mail::to($user->email)->send(new VerificationCodeMail($code, $user->name));
+    }
+
+    /**
+     * Validasi kode OTP via AJAX (real-time validation)
+     * Mengembalikan status valid, expired, atau tidak cocok
+     */
+    public function checkCode(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'code' => 'required|string|size:6',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+
+        // Cari kode verifikasi
+        $verification = EmailVerificationCode::where('user_id', $user->id)
+            ->where('code', $request->code)
+            ->latest('created_at')
+            ->first();
+
+        // Jika kode tidak ada
+        if (!$verification) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Kode verifikasi tidak cocok.',
+            ]);
+        }
+
+        // Jika kode sudah expired
+        if ($verification->isExpired()) {
+            return response()->json([
+                'valid' => false,
+                'expired' => true,
+                'message' => 'Kode verifikasi sudah kedaluwarsa. Mohon minta kode baru.',
+            ]);
+        }
+
+        // Kode valid
+        return response()->json([
+            'valid' => true,
+            'message' => 'Kode verifikasi benar!',
+        ]);
+    }
+
+    /**
+     * Auto-resend kode saat expired
+     */
+    public function autoResendCode(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+
+        // Cek apakah sudah verified
+        if ($user->isVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email sudah diverifikasi.',
+            ]);
+        }
+
+        // Generate dan kirim kode baru
+        $this->generateAndSendCode($user);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode verifikasi baru telah dikirim ke email kamu.',
+        ]);
     }
 }

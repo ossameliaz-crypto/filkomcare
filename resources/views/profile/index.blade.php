@@ -136,7 +136,7 @@
                         <line x1="14" y1="11" x2="14" y2="17"></line>
                     </svg>
                 </div>
-                <h3 class="text-[#1a1a2e] text-[18px] font-bold mb-1">Hapus Akun?</h3>
+                <h3 class="text-[#3d4a5e] text-[16px] font-bold mb-1">Hapus Akun?</h3>
                 <p class="text-gray-500 text-[13px] text-center leading-relaxed">Semua data kamu akan dihapus permanen dan tidak bisa dikembalikan. Masukkan password untuk konfirmasi.</p>
             </div>
 

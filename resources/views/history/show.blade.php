@@ -8,10 +8,10 @@
     {{-- Top Bar --}}
     <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-4">
-            <a href="{{ route('history.index') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
+            <a href="{{ route('history.index') }}" class="text-[#3d4a5e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
-            <h1 class="text-[#1a1a2e] text-[20px] font-bold tracking-tight">Detail Konsultasi</h1>
+            <h1 class="text-[#3d4a5e] text-[20px] font-bold tracking-tight">Detail Konsultasi</h1>
         </div>
         <span class="text-[#64748b] text-[13px] font-bold tracking-wide">{{ $consultation->report_id }}</span>
     </div>
@@ -41,10 +41,10 @@
         </div>
 
         {{-- Topic --}}
-        <h2 class="text-[#3d4a5e] text-[18px] font-bold mb-4">{{ $consultation->topic }}</h2>
+        <h2 class="text-[#3d4a5e] text-[16px] font-bold mb-4">{{ $consultation->topic }}</h2>
 
         {{-- Description --}}
-        <p class="text-[#1a1a2e] text-[13px] font-medium leading-[1.6] mb-6">
+        <p class="text-[#3d4a5e] text-[13px] font-medium leading-[1.6] mb-6">
             {{ $consultation->description }}
         </p>
 

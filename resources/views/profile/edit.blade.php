@@ -7,10 +7,10 @@
     
     {{-- Top Bar --}}
     <div class="px-6 pt-12 pb-6 flex items-center gap-4 z-10 bg-[#f8f9fa]">
-        <a href="{{ route('profile.index') }}" class="text-[#1a1a2e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
+        <a href="{{ route('profile.index') }}" class="text-[#3d4a5e] transition-all duration-300 transform hover:-translate-x-1 hover:text-[#87B4B8]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         </a>
-        <h1 class="text-[#1a1a2e] text-[20px] font-bold">Edit Profile</h1>
+        <h1 class="text-[#3d4a5e] text-[20px] font-bold">Edit Profile</h1>
     </div>
 
     {{-- Alert Messages --}}
@@ -27,7 +27,7 @@
 
     {{-- Content --}}
     <div class="px-6 flex-1 overflow-y-auto pb-8 z-10">
-        <h2 class="text-[#1a1a2e] text-[16px] font-bold mb-4">Account Details</h2>
+        <h2 class="text-[#3d4a5e] text-[16px] font-bold mb-4">Account Details</h2>
 
         <div class="bg-white rounded-[24px] shadow-sm p-6 flex flex-col gap-6">
             
@@ -90,7 +90,7 @@
     {{-- Edit Modal Overlay --}}
     <div x-show="modalOpen" class="absolute inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center p-6" x-transition.opacity style="display: none;">
         <div class="bg-white w-full rounded-2xl p-6 shadow-2xl" @click.away="closeModal()" x-show="modalOpen" x-transition.scale>
-            <h3 class="text-[#1a1a2e] text-[18px] font-bold mb-4">Edit <span x-text="editFieldLabel"></span></h3>
+            <h3 class="text-[#3d4a5e] text-[16px] font-bold mb-4">Edit <span x-text="editFieldLabel"></span></h3>
             
             <form action="{{ route('profile.update') }}" method="POST">
                 @csrf

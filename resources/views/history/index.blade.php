@@ -7,7 +7,7 @@
     
     {{-- Header --}}
     <div class="px-6 pt-12 pb-4 bg-white z-10 rounded-b-[24px]">
-        <h1 class="text-[#1a1a2e] text-[20px] font-bold tracking-tight mb-5">Riwayat Konsultasi</h1>
+        <h1 class="text-[#3d4a5e] text-[20px] font-bold tracking-tight mb-5">Riwayat Konsultasi</h1>
         
         {{-- Search Bar --}}
         <div class="relative mb-5">
@@ -38,13 +38,13 @@
         {{-- Empty State (No Data Ever or Not Found) --}}
         <div x-show="filteredItems.length === 0" class="flex-1 flex flex-col items-center justify-center pb-20 mt-10" style="display: none;">
             <img src="{{ asset('images/empty_history.png') }}" alt="Empty State" class="w-[260px] mb-6 object-contain transition-transform duration-500 hover:-translate-y-2">
-            <h3 class="text-[#1a1a2e] text-[18px] font-bold text-center leading-tight">Anda belum pernah<br>berkonsultasi</h3>
+            <h3 class="text-[#3d4a5e] text-[20px] font-bold text-center leading-tight">Anda belum pernah<br>berkonsultasi</h3>
         </div>
 
         {{-- List --}}
         <div class="flex flex-col gap-4">
             <template x-for="item in filteredItems" :key="item.id">
-                <a :href="'/riwayat/' + item.id" class="block bg-white rounded-[20px] border border-gray-50 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(135,180,184,0.3)] hover:border-[#87B4B8] transition-all duration-300 transform hover:-translate-y-1 active:scale-[0.98]">
+                <a :href="'{{ url('/riwayat') }}/' + item.id" class="block bg-white rounded-[20px] border border-gray-50 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(135,180,184,0.3)] hover:border-[#87B4B8] transition-all duration-300 transform hover:-translate-y-1 active:scale-[0.98]">
                     
                     {{-- Top Row: ID & Status --}}
                     <div class="flex justify-between items-center mb-2">
