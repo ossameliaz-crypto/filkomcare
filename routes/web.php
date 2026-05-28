@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
                     'user_id' => \Illuminate\Support\Facades\Auth::id(),
                     'title' => $notifTitle,
                     'message' => 'Anda memiliki sesi konseling hari ini jam ' . $c->time . '. Pastikan Anda hadir tepat waktu. Silakan cek detail di menu Konsultasi.',
-                    'type' => 'schedule'
+                    'type' => 'reminder'
                 ]);
             }
         }

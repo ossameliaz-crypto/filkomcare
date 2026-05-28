@@ -215,7 +215,7 @@ class ConsultationController extends Controller
             'message' => $isWorkingHours 
                 ? 'Kami telah menerima permintaan darurat Anda. Mohon tetap terhubung via WhatsApp.'
                 : 'Layanan saat ini sedang offline. Data darurat Anda telah kami terima dan konselor akan segera menghubungi Anda saat jam layanan berlangsung (Senin-Jumat 09:00-17:00 WIB).',
-            'type' => 'system',
+            'type' => 'alert',
         ]);
 
         return response()->json([
