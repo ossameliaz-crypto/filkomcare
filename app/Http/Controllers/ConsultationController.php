@@ -124,11 +124,11 @@ class ConsultationController extends Controller
         $waDate = Carbon::parse($data['date'])->locale('id')->translatedFormat('l, d F Y');
         $waTime = isset($data['time']) ? str_replace(' WIB', '', $data['time']) . ' WIB' : '10:30 - 11:30 WIB';
         
-        $waText = "Halo, saya {$user->name}.\n\nSaya telah menjadwalkan sesi konseling dengan detail berikut:\n"
-                . "📅 Tanggal: {$waDate}\n"
-                . "⏰ Jam: {$waTime}\n"
-                . "💬 Topik: {$data['topic']}\n\n"
-                . "Deskripsi masalah: {$data['description']}\n\n"
+        $waText = "Halo, saya {$user->name}.\r\n\r\nSaya telah menjadwalkan sesi konseling dengan detail berikut:\r\n"
+                . "- Tanggal: {$waDate}\r\n"
+                . "- Jam: {$waTime}\r\n"
+                . "- Topik: {$data['topic']}\r\n\r\n"
+                . "Deskripsi masalah: {$data['description']}\r\n\r\n"
                 . "Mohon arahannya. Terima kasih.";
                 
         $waLink = "https://wa.me/" . $waNumber . "?text=" . urlencode($waText);

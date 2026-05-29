@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'Dashboard - FilkomCare')
 @section('page-name', 'Home')
@@ -12,7 +12,7 @@
         {{-- Greeting Row --}}
         <div class="flex justify-between items-center mb-2">
             <h1 class="text-white text-[22px] font-semibold flex items-center gap-2">
-                ðŸ‘‹ Hai, {{ explode(' ', Auth::user()->name ?? 'Mahasiswa')[0] }}
+                👋 Hai, {{ explode(' ', Auth::user()->name ?? 'Mahasiswa')[0] }}
             </h1>
             <a href="{{ route('notifications.index') }}" class="relative block">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

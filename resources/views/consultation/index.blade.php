@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Konsultasi')
 @section('page-name', 'Konsultasi')
@@ -112,12 +112,12 @@
             
             <div class="grid grid-cols-3 gap-3 mb-8">
                 <template x-for="time in times" :key="time">
-                    <button type="button" @click="if(!isBooked(time)) selectedTime = time"
-                            :disabled="isBooked(time)"
+                    <button type="button" @click="if(!isUnavailable(time)) selectedTime = time"
+                            :disabled="isUnavailable(time)"
                             :class="{
-                                'bg-[#fee2e2] border-[#fca5a5] text-[#ef4444] cursor-not-allowed shadow-inner': isBooked(time),
-                                'bg-[#f3ede3] border-[#a1c4c8] text-[#3d4a5e]': selectedTime === time && !isBooked(time), 
-                                'border-gray-200 text-[#a1abb9]': selectedTime !== time && !isBooked(time)
+                                'bg-[#fee2e2] border-[#fca5a5] text-[#ef4444] cursor-not-allowed shadow-inner': isUnavailable(time),
+                                'bg-[#f3ede3] border-[#a1c4c8] text-[#3d4a5e]': selectedTime === time && !isUnavailable(time), 
+                                'border-gray-200 text-[#a1abb9]': selectedTime !== time && !isUnavailable(time)
                             }"
                             class="border rounded-xl py-2 text-[12px] font-medium transition" x-text="time"></button>
                 </template>
@@ -198,12 +198,32 @@
             dates: [],
             bookedSchedules: @json($bookedSchedules ?? []),
             
-            isBooked(timeStr) {
-                return this.bookedSchedules.some(s => s.date === this.selectedFullDate && s.time === timeStr);
+            isUnavailable(timeStr) {
+                // 1. Cek apakah sudah di-booking oleh orang lain
+                const booked = this.bookedSchedules.some(s => s.date === this.selectedFullDate && s.time === timeStr);
+                if (booked) return true;
+                
+                // 2. Cek apakah waktu sudah lewat hari ini
+                const today = new Date();
+                const todayStr = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+                
+                if (this.selectedFullDate === todayStr) {
+                    const timePart = timeStr.split(' ')[0]; // Ambil "10:30" dari "10:30 WIB"
+                    const [hours, minutes] = timePart.split(':');
+                    
+                    const slotTime = new Date();
+                    slotTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+                    
+                    if (today >= slotTime) {
+                        return true;
+                    }
+                }
+                
+                return false;
             },
 
             autoSelectAvailableTime() {
-                let available = this.times.find(t => !this.isBooked(t));
+                let available = this.times.find(t => !this.isUnavailable(t));
                 this.selectedTime = available ? available : 'Penuh';
             },
             
