@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Riwayat')
 
@@ -38,7 +38,13 @@
         {{-- Empty State (No Data Ever or Not Found) --}}
         <div x-show="filteredItems.length === 0" class="flex-1 flex flex-col items-center justify-center pb-20 mt-10" style="display: none;">
             <img src="{{ asset('images/empty_history.png') }}" alt="Empty State" class="w-[260px] mb-6 object-contain transition-transform duration-500 hover:-translate-y-2">
-            <h3 class="text-[#3d4a5e] text-[20px] font-bold text-center leading-tight">Anda belum pernah<br>berkonsultasi</h3>
+            <h3 class="text-[#3d4a5e] text-[20px] font-bold text-center leading-tight" 
+                x-html="items.length === 0 
+                        ? 'Anda belum pernah<br>berkonsultasi' 
+                        : (search !== '' 
+                            ? 'Pencarian tidak<br>ditemukan' 
+                            : 'Tidak ada riwayat dengan<br>status ' + filter)">
+            </h3>
         </div>
 
         {{-- List --}}
