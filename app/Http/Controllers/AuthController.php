@@ -48,8 +48,8 @@ class AuthController extends Controller
             'nim' => 'required',
             'password' => 'required',
         ], [
-            'nim.required' => 'E-09: Kolom NIM wajib diisi.', // [cite: 408]
-            'password.required' => 'E-09: Kolom Password wajib diisi.', // [cite: 408]
+            'nim.required' => 'Kolom NIM wajib diisi.',
+            'password.required' => 'Kolom Password wajib diisi.',
         ]);
 
         // Cari berdasarkan NIM atau Email (karena di UI tertulis input your NIM number or email)
@@ -73,12 +73,20 @@ class AuthController extends Controller
             }
 
             $request->session()->regenerate();
+            
+            // Set cookie for Remember Me pre-fill
+            if ($remember) {
+                \Illuminate\Support\Facades\Cookie::queue('saved_nim', $request->nim, 60 * 24 * 30); // 30 days
+            } else {
+                \Illuminate\Support\Facades\Cookie::queue(\Illuminate\Support\Facades\Cookie::forget('saved_nim'));
+            }
+
             return redirect()->intended('/dashboard');
         }
 
-        // Jika gagal, kembalikan pesan error sesuai kode E-02 SRS [cite: 406]
+        // Jika gagal, kembalikan pesan error
         return back()->withErrors([
-            'login_error' => 'E-02: NIM atau kata sandi tidak valid. Silakan coba lagi.',
+            'login_error' => 'NIM atau kata sandi tidak valid. Silakan coba lagi.',
         ])->withInput($request->only('nim'));
     }
 
@@ -94,7 +102,12 @@ class AuthController extends Controller
     public function register(Request $request) {
         // Validasi input
         $request->validate([
-            'identifier' => 'required',
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@student\.ub\.ac\.id$/',
+                'unique:users,email'
+            ],
             'password' => [
                 'required', 
                 'min:8', 
@@ -104,7 +117,10 @@ class AuthController extends Controller
             ],
             'password_confirmation' => 'required|same:password',
         ], [
-            'identifier.required' => 'Kolom NIM atau email wajib diisi.',
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.regex' => 'Gunakan email institusi (@student.ub.ac.id).',
+            'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan simbol.',
@@ -112,58 +128,16 @@ class AuthController extends Controller
             'password_confirmation.same' => 'Password tidak cocok.',
         ]);
 
-        $identifier = trim($request->identifier);
-        $isEmail = filter_var($identifier, FILTER_VALIDATE_EMAIL);
+        $email = trim($request->email);
 
-        if ($isEmail) {
-            // Validasi format email UB [cite: 422]
-            if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.ub\.ac\.id$/', $identifier)) {
-                return back()->withErrors([
-                    'identifier' => 'Gunakan email institusi (@student.ub.ac.id).',
-                ])->withInput();
-            }
+        // Derive name dari email (bagian sebelum @)
+        $name = ucfirst(explode('@', $email)[0]);
 
-            // Cek email unik
-            if (User::where('email', $identifier)->exists()) {
-                return back()->withErrors([
-                    'identifier' => 'Email sudah terdaftar.',
-                ])->withInput();
-            }
-
-            // Derive name dari email (bagian sebelum @)
-            $name = ucfirst(explode('@', $identifier)[0]);
-
-            $user = User::create([
-                'email' => $identifier,
-                'name' => $name,
-                'password' => Hash::make($request->password),
-            ]);
-        } else {
-            // Validasi NIM: harus 18 digit angka [cite: 422]
-            if (!preg_match('/^\d{18}$/', $identifier)) {
-                return back()->withErrors([
-                    'identifier' => 'NIM harus terdiri dari 18 digit angka.',
-                ])->withInput();
-            }
-
-            // Cek NIM unik
-            if (User::where('nim', $identifier)->exists()) {
-                return back()->withErrors([
-                    'identifier' => 'NIM sudah terdaftar.',
-                ])->withInput();
-            }
-
-            // Buat email dari NIM: nim@student.ub.ac.id
-            $email = $identifier . '@student.ub.ac.id';
-            $name = 'Mahasiswa ' . $identifier;
-
-            $user = User::create([
-                'nim' => $identifier,
-                'email' => $email,
-                'name' => $name,
-                'password' => Hash::make($request->password),
-            ]);
-        }
+        $user = User::create([
+            'email' => $email,
+            'name' => $name,
+            'password' => Hash::make($request->password),
+        ]);
 
         // Generate dan kirim kode verifikasi
         $this->generateAndSendCode($user);
@@ -353,5 +327,122 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Kode verifikasi baru telah dikirim ke email kamu.',
         ]);
+    }
+
+    // ==========================================
+    // FORGOT PASSWORD FLOW
+    // ==========================================
+
+    public function showForgotPassword() {
+        return view('auth.forgot-password');
+    }
+
+    public function sendResetLinkEmail(Request $request) {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.exists' => 'Email tidak terdaftar di sistem kami.'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        // Generate and send OTP
+        $this->generateAndSendCode($user);
+
+        // Save user ID in session for the next step
+        $request->session()->put('reset_user_id', $user->id);
+
+        return redirect()->route('password.verify');
+    }
+
+    public function showResetVerify(Request $request) {
+        if (!$request->session()->has('reset_user_id')) {
+            return redirect()->route('password.request');
+        }
+
+        $user = User::find($request->session()->get('reset_user_id'));
+        if (!$user) {
+            return redirect()->route('password.request');
+        }
+
+        return view('auth.forgot-password-verify', compact('user'));
+    }
+
+    public function verifyResetCode(Request $request) {
+        if (!$request->session()->has('reset_user_id')) {
+            return redirect()->route('password.request');
+        }
+
+        $request->validate([
+            'code' => 'required|string|size:6',
+        ]);
+
+        $userId = $request->session()->get('reset_user_id');
+        $user = User::find($userId);
+
+        $verification = EmailVerificationCode::where('user_id', $userId)
+            ->where('code', $request->code)
+            ->where('expires_at', '>', now())
+            ->latest('created_at')
+            ->first();
+
+        if (!$verification) {
+            return back()->withErrors([
+                'code' => 'Kode verifikasi salah atau sudah kedaluwarsa.',
+            ]);
+        }
+
+        // Clean up OTP codes
+        EmailVerificationCode::where('user_id', $userId)->delete();
+
+        // Set flag to allow password reset
+        $request->session()->put('reset_password_allowed', true);
+
+        return redirect()->route('password.reset');
+    }
+
+    public function showResetPassword(Request $request) {
+        if (!$request->session()->has('reset_password_allowed') || !$request->session()->has('reset_user_id')) {
+            return redirect()->route('password.request');
+        }
+
+        return view('auth.reset-password');
+    }
+
+    public function updatePassword(Request $request) {
+        if (!$request->session()->has('reset_password_allowed') || !$request->session()->has('reset_user_id')) {
+            return redirect()->route('password.request');
+        }
+
+        $request->validate([
+            'password' => [
+                'required', 
+                'min:8', 
+                'regex:/[a-z]/',      
+                'regex:/[A-Z]/',      
+                'regex:/[@$!%*#?&.,]/', 
+            ],
+            'password_confirmation' => 'required|same:password',
+        ], [
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan simbol.',
+            'password_confirmation.required' => 'Konfirmasi password wajib diisi.',
+            'password_confirmation.same' => 'Password tidak cocok.',
+        ]);
+
+        $userId = $request->session()->get('reset_user_id');
+        $user = User::find($userId);
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Clear session
+        $request->session()->forget(['reset_user_id', 'reset_password_allowed']);
+
+        return redirect()->route('login')->with('success', 'Password berhasil diubah! Silakan login dengan password baru.');
     }
 }

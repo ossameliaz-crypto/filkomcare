@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'Login - FilkomCare')
 @section('page-name', 'Login')
@@ -57,7 +57,7 @@
                 {{-- NIM / Email Input --}}
                 <div class="mb-1">
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 transition-all duration-200 keyboard-input-wrap">
-                        <input type="text" name="nim" value="{{ old('nim') }}" required
+                        <input type="text" name="nim" value="{{ old('nim') ?? \Illuminate\Support\Facades\Cookie::get('saved_nim') }}" required
                             placeholder="Input your NIM number or email" 
                             class="w-full bg-transparent text-[#3d4a5e] placeholder-gray-400 text-[13px] focus:outline-none font-normal keyboard-input"
                             data-keyboard="alpha"
@@ -88,7 +88,7 @@
 
                 {{-- Remember Me --}}
                 <div class="flex items-center mb-6 pl-1">
-                    <input id="remember" type="checkbox" name="remember" class="w-4 h-4 text-[#87B4B8] bg-gray-100 border-gray-300 rounded focus:ring-[#87B4B8] focus:ring-2">
+                    <input id="remember" type="checkbox" name="remember" {{ \Illuminate\Support\Facades\Cookie::get('saved_nim') ? 'checked' : '' }} class="w-4 h-4 text-[#87B4B8] bg-gray-100 border-gray-300 rounded focus:ring-[#87B4B8] focus:ring-2">
                     <label for="remember" class="ml-2 text-[12px] font-medium text-gray-500">Ingat Saya</label>
                 </div>
 
@@ -98,9 +98,8 @@
                     Login Now
                 </button>
 
-                {{-- Forgot Password --}}
                 <div class="text-center mt-5">
-                    <a href="#" class="text-[13px] text-[#3d4a5e] font-semibold hover:text-[#87B4B8] transition-all inline-block hover:scale-105">
+                    <a href="{{ route('password.request') }}" class="text-[13px] text-[#3d4a5e] font-semibold hover:text-[#87B4B8] transition-all inline-block hover:scale-105">
                         Forgot password?
                     </a>
                 </div>

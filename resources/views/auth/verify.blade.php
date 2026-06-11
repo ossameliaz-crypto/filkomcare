@@ -39,13 +39,13 @@
                 <input type="hidden" name="code" id="otpHidden" value="">
 
                 {{-- OTP Boxes --}}
-                <div class="flex gap-3 mb-3" id="otpBoxes">
-                    <div class="otp-box" data-index="0"></div>
-                    <div class="otp-box" data-index="1"></div>
-                    <div class="otp-box" data-index="2"></div>
-                    <div class="otp-box" data-index="3"></div>
-                    <div class="otp-box" data-index="4"></div>
-                    <div class="otp-box" data-index="5"></div>
+                <div class="flex justify-between gap-1.5 mb-3" id="otpBoxes">
+                    <div class="otp-box shadow-sm" data-index="0"></div>
+                    <div class="otp-box shadow-sm" data-index="1"></div>
+                    <div class="otp-box shadow-sm" data-index="2"></div>
+                    <div class="otp-box shadow-sm" data-index="3"></div>
+                    <div class="otp-box shadow-sm" data-index="4"></div>
+                    <div class="otp-box shadow-sm" data-index="5"></div>
                 </div>
 
                 {{-- Error Messages --}}
@@ -147,10 +147,8 @@
     /* ===== OTP Boxes ===== */
     .otp-box {
         flex: 1;
-        aspect-ratio: 1;
-        max-width: 52px;
-        max-height: 52px;
-        border-radius: 10px;
+        height: 48px;
+        border-radius: 12px;
         background: #e8e8e8;
         display: flex;
         align-items: center;

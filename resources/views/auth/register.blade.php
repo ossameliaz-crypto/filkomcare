@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'Sign Up - FilkomCare')
 @section('page-name', 'Sign Up')
@@ -36,14 +36,14 @@
                     </div>
                 @endif
 
-                {{-- NIM / Email Input --}}
+                {{-- Email Input --}}
                 <div class="mb-1">
                     <div class="bg-gray-50 rounded-2xl px-5 py-3.5 border border-gray-100 transition-all duration-200 keyboard-input-wrap">
-                        <input type="text" name="identifier" value="{{ old('identifier') }}" required
-                            placeholder="Input your NIM number or email" 
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                            placeholder="Input your email" 
                             class="w-full bg-transparent text-[#3d4a5e] placeholder-gray-400 text-[13px] focus:outline-none font-normal keyboard-input"
                             data-keyboard="alpha"
-                            id="identifierInput"
+                            id="emailInput"
                             autocomplete="off">
                     </div>
                     <p class="text-[10px] text-gray-300 mt-1.5 ml-1 font-light">Gunakan email UB aktif (@student.ub.ac.id)</p>
@@ -356,13 +356,13 @@
 
     // ===== Dynamic Submit Button =====
     (function() {
-        const identifierInput = document.getElementById('identifierInput');
+        const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
         const confirmInput = document.getElementById('confirmPasswordInput');
         const submitBtn = document.getElementById('submitBtn');
 
         function checkForm() {
-            const allFilled = identifierInput.value.trim() !== '' 
+            const allFilled = emailInput.value.trim() !== '' 
                 && passwordInput.value !== '' 
                 && confirmInput.value !== '';
             
@@ -377,7 +377,7 @@
             }
         }
 
-        [identifierInput, passwordInput, confirmInput].forEach(input => {
+        [emailInput, passwordInput, confirmInput].forEach(input => {
             input.addEventListener('input', checkForm);
             input.addEventListener('change', checkForm);
         });

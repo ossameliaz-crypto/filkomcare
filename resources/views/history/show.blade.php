@@ -1,4 +1,4 @@
-﻿@extends('layouts.mobile-emulator')
+@extends('layouts.mobile-emulator')
 
 @section('title', 'FilkomCare - Detail Riwayat')
 
@@ -56,6 +56,16 @@
             <svg class="text-[#8e98a8]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span class="text-[#8e98a8] text-[13px] font-medium">{{ $formattedDate }}</span>
         </div>
+
+        @if($consultation->status !== 'Selesai')
+        {{-- Reschedule Button --}}
+        <div class="mt-8">
+            <a href="{{ route('consultation.reschedule', $consultation->id) }}" class="w-full flex items-center justify-center gap-2 bg-[#f8f9fa] border border-[#e2e8f0] text-[#5d687c] font-bold text-[14px] py-3.5 rounded-xl shadow-sm transition-all duration-300 hover:bg-[#f1f5f9] hover:shadow-md transform hover:-translate-y-0.5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                Reschedule Jadwal
+            </a>
+        </div>
+        @endif
 
     </div>
 

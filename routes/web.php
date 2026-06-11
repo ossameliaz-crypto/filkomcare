@@ -21,6 +21,14 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 
+    // Forgot Password Routes
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/forgot-password/verify', [AuthController::class, 'showResetVerify'])->name('password.verify');
+    Route::post('/forgot-password/verify', [AuthController::class, 'verifyResetCode'])->name('password.verify.post');
+    Route::get('/reset-password', [AuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
     // Verification Routes
     Route::get('/verify/{user}', [AuthController::class, 'showVerification'])->name('verify');
     Route::post('/verify', [AuthController::class, 'verify'])->name('verify.submit');
@@ -69,6 +77,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/riwayat', [ConsultationController::class, 'history'])->name('history.index');
     Route::get('/riwayat/{id}', [ConsultationController::class, 'showHistory'])->name('history.show');
+    Route::get('/riwayat/{id}/reschedule', [ConsultationController::class, 'showReschedule'])->name('consultation.reschedule');
+    Route::post('/riwayat/{id}/reschedule', [ConsultationController::class, 'updateReschedule'])->name('consultation.reschedule.update');
     
     // Profile Routes
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');

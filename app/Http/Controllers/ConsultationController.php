@@ -124,12 +124,23 @@ class ConsultationController extends Controller
         $waDate = Carbon::parse($data['date'])->locale('id')->translatedFormat('l, d F Y');
         $waTime = isset($data['time']) ? str_replace(' WIB', '', $data['time']) . ' WIB' : '10:30 - 11:30 WIB';
         
-        $waText = "Halo, saya {$user->name}.\r\n\r\nSaya telah menjadwalkan sesi konseling dengan detail berikut:\r\n"
-                . "- Tanggal: {$waDate}\r\n"
-                . "- Jam: {$waTime}\r\n"
-                . "- Topik: {$data['topic']}\r\n\r\n"
-                . "Deskripsi masalah: {$data['description']}\r\n\r\n"
-                . "Mohon arahannya. Terima kasih.";
+        $isReschedule = isset($data['is_reschedule']) && $data['is_reschedule'];
+        
+        if ($isReschedule) {
+            $waText = "Halo, saya {$user->name}.\r\n\r\nSaya ingin melakukan *Reschedule* / penjadwalan ulang sesi konseling dengan detail terbaru berikut:\r\n"
+                    . "- Tanggal: {$waDate}\r\n"
+                    . "- Jam: {$waTime}\r\n"
+                    . "- Topik: {$data['topic']}\r\n\r\n"
+                    . "Deskripsi masalah: {$data['description']}\r\n\r\n"
+                    . "Mohon arahannya. Terima kasih.";
+        } else {
+            $waText = "Halo, saya {$user->name}.\r\n\r\nSaya telah menjadwalkan sesi konseling dengan detail berikut:\r\n"
+                    . "- Tanggal: {$waDate}\r\n"
+                    . "- Jam: {$waTime}\r\n"
+                    . "- Topik: {$data['topic']}\r\n\r\n"
+                    . "Deskripsi masalah: {$data['description']}\r\n\r\n"
+                    . "Mohon arahannya. Terima kasih.";
+        }
                 
         $waLink = "https://wa.me/" . $waNumber . "?text=" . urlencode($waText);
 
@@ -155,6 +166,59 @@ class ConsultationController extends Controller
         $formattedDate = Carbon::parse($consultation->date)->translatedFormat('j F Y');
 
         return view('history.show', compact('consultation', 'formattedDate'));
+    }
+
+    public function showReschedule($id)
+    {
+        $consultation = Consultation::where('user_id', Auth::id())->findOrFail($id);
+        
+        if ($consultation->status === 'Selesai') {
+            return redirect()->route('history.show', $id)->with('error', 'Konsultasi yang sudah selesai tidak dapat di-reschedule.');
+        }
+
+        $bookedSchedules = Consultation::select('date', 'time')
+                            ->whereIn('status', ['Menunggu', 'Diproses'])
+                            ->get()
+                            ->toArray();
+
+        return view('consultation.reschedule', compact('consultation', 'bookedSchedules'));
+    }
+
+    public function updateReschedule(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string',
+        ]);
+
+        $consultation = Consultation::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($consultation->status === 'Selesai') {
+            return redirect()->route('history.show', $id);
+        }
+
+        $consultation->update([
+            'date' => $validated['date'],
+            'time' => $validated['time'],
+        ]);
+
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title' => 'Jadwal Konsultasi Diperbarui',
+            'message' => 'Jadwal konsultasi ' . $consultation->report_id . ' Anda berhasil diubah menjadi ' . $validated['date'] . ' ' . $validated['time'] . '. Harap konfirmasi kembali ke WhatsApp admin.',
+            'type' => 'reminder',
+        ]);
+
+        session()->flash('consultation_data', [
+            'date' => $consultation->date,
+            'time' => $consultation->time,
+            'service' => $consultation->service,
+            'topic' => $consultation->topic,
+            'description' => $consultation->description,
+            'is_reschedule' => true,
+        ]);
+        
+        return redirect()->route('consultation.detail');
     }
 
     /**
