@@ -58,13 +58,25 @@
             </div>
             
             {{-- Sign Out Button (Always visible) --}}
-            <div class="mb-4">
+            <div class="mb-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="w-full bg-[#fde9eb] border border-[#f5c6cb] text-[#df4a56] font-bold py-3.5 rounded-xl text-[15px] hover:bg-[#fad8db] transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:scale-95">
                         Sign Out
                     </button>
                 </form>
+            </div>
+
+            {{-- Delete Account Button --}}
+            <div class="mb-4">
+                <button @click="deleteModalOpen = true" class="w-full text-gray-400 text-[13px] font-medium hover:text-[#df4a56] transition py-2">
+                    Hapus Akun Permanen
+                </button>
+            </div>
+            
+            {{-- Footer Text --}}
+            <div class="text-center text-gray-400 text-[13px] font-medium">
+                FilkomCare v1.0.0 | UKLT Filkom
             </div>
         </div>
     @else
