@@ -14,7 +14,7 @@
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <svg class="text-[#8e98a8]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
-            <input type="text" x-model="search" placeholder="Cari Riwayat Konsultasi..." class="w-full bg-white border border-gray-200 shadow-sm text-[#3d4a5e] placeholder-[#8e98a8] rounded-xl py-3 pl-11 pr-4 text-[13px] font-medium transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 hover:border-gray-300">
+            <input type="text" x-model="search" placeholder="Cari Riwayat Konsultasi..." class="w-full bg-white border border-gray-200 shadow-sm text-[#3d4a5e] placeholder-[#8e98a8] rounded-xl py-3 pl-11 pr-4 text-[16px] font-medium transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 hover:border-gray-300">
         </div>
 
         {{-- Filter Chips --}}

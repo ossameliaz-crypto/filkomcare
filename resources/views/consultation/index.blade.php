@@ -18,14 +18,14 @@
 
         {{-- Tabs --}}
         <div class="bg-[#f0f2f5] rounded-xl p-1 flex mb-8">
-            <button @click="tab = 'online'" :class="{'bg-[#5b687b] text-white': tab === 'online', 'text-[#94a3b8] bg-transparent': tab !== 'online'}" class="flex-1 py-2 text-[14px] font-semibold rounded-lg transition">Online</button>
-            <button @click="tab = 'tatap_muka'" :class="{'bg-[#5b687b] text-white': tab === 'tatap_muka', 'text-[#94a3b8] bg-transparent': tab !== 'tatap_muka'}" class="flex-1 py-2 text-[14px] font-semibold rounded-lg transition">Tatap Muka</button>
+            <button type="button" @click="tab = 'online'" :class="{'bg-[#5b687b] text-white': tab === 'online', 'text-[#94a3b8] bg-transparent': tab !== 'online'}" class="flex-1 py-2 text-[14px] font-semibold rounded-lg transition">Online</button>
+            <button type="button" @click="tab = 'tatap_muka'" :class="{'bg-[#5b687b] text-white': tab === 'tatap_muka', 'text-[#94a3b8] bg-transparent': tab !== 'tatap_muka'}" class="flex-1 py-2 text-[14px] font-semibold rounded-lg transition">Tatap Muka</button>
         </div>
 
         {{-- Tanggal Selector --}}
         <div class="mb-6">
             <div class="flex justify-between items-center mb-3">
-                <span class="text-[#64748b] text-[14px] font-medium">Pilih berdasarkan jadwal</span>
+                <label class="block text-[13px] font-bold text-[#3d4a5e] ml-1">Pilih berdasarkan jadwal</label>
                 <div class="relative w-5 h-5 flex items-center justify-center">
                     <input type="date" x-model="selectedFullDate" @change="updateDatesFromPicker($event.target.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 hover:scale-110 transition-transform" style="-webkit-appearance: none;">
                     <svg class="text-[#a1c4c8] relative z-0 transition-all hover:scale-110" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -47,18 +47,18 @@
 
         {{-- Waktu Konseling --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Pilih waktu konseling</span>
-            <button @click="timeModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
-                <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="selectedTime"></span>
+            <label class="block text-[13px] font-bold text-[#3d4a5e] mb-1.5 ml-1">Pilih waktu konseling</label>
+            <button type="button" @click="timeModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
+                <span class="text-[#3d4a5e] text-[16px] transition-colors" x-text="selectedTime"></span>
                 <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
         </div>
 
         {{-- Pilih Layanan --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Pilih layanan</span>
-            <button @click="serviceModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
-                <span class="text-[#a1abb9] text-[13px] group-hover:text-[#3d4a5e] transition-colors" x-text="tab === 'online' ? selectedOnlineService : selectedOfflineService"></span>
+            <label class="block text-[13px] font-bold text-[#3d4a5e] mb-1.5 ml-1">Pilih layanan</label>
+            <button type="button" @click="serviceModalOpen = true" class="w-full flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-left transition-all duration-300 hover:border-[#bce8ee] hover:bg-white hover:shadow-sm transform hover:-translate-y-0.5 group">
+                <span class="text-[#3d4a5e] text-[16px] transition-colors" x-text="tab === 'online' ? selectedOnlineService : selectedOfflineService"></span>
                 <svg class="text-[#a1abb9] group-hover:text-[#3d4a5e] transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
         </div>
