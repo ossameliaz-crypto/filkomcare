@@ -205,7 +205,8 @@ class ConsultationController extends Controller
         Notification::create([
             'user_id' => Auth::id(),
             'title' => 'Jadwal Konsultasi Diperbarui',
-            'message' => 'Jadwal konsultasi ' . $consultation->report_id . ' Anda berhasil diubah menjadi ' . $validated['date'] . ' ' . $validated['time'] . '. Harap konfirmasi kembali ke WhatsApp admin.',
+            'message' => 'Jadwal konsultasi ' . $consultation->report_id . ' Anda berhasil diubah menjadi ' . $validated['date'] . ' ' . $validated['time'] . '.' . 
+                         (in_array($consultation->service, ['Chat Konseling', 'Telepon Konseling']) ? ' Harap konfirmasi kembali ke WhatsApp admin.' : ''),
             'type' => 'reminder',
         ]);
 

@@ -65,14 +65,14 @@
 
         {{-- Topik Konsultasi --}}
         <div class="mb-6">
-            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Topik Konsultasi</span>
-            <input type="text" name="topic" required placeholder="Contoh: Masalah Akademik" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
+            <label class="block text-[13px] font-bold text-[#3d4a5e] mb-1.5 ml-1">Topik Konsultasi</label>
+            <input type="text" name="topic" required placeholder="Contoh: Masalah Akademik" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[16px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
-        {{-- Deskripsi Singkat --}}
+        {{-- Description --}}
         <div class="mb-8">
-            <span class="block text-[#8e98a8] text-[14px] font-medium mb-2">Deskripsi Singkat</span>
-            <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[13px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
+            <label class="block text-[13px] font-bold text-[#3d4a5e] mb-1.5 ml-1">Deskripsi Singkat</label>
+            <input type="text" name="description" required placeholder="Contoh: Stres berlebih karena tekanan project" class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-[#f8f9fa] text-[16px] text-[#3d4a5e] transition-all duration-300 focus:outline-none focus:border-[#87B4B8] focus:ring-2 focus:ring-[#87B4B8]/20 focus:bg-white hover:border-[#bce8ee]">
         </div>
 
         {{-- Checkbox Persetujuan --}}

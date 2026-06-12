@@ -289,12 +289,7 @@
         background: #b0b1b4;
     }
 
-    /* Hide keyboard on real mobile */
-    @media (max-width: 768px) {
-        .numeric-keyboard {
-            display: none !important;
-        }
-    }
+    /* Keyboard will show on both desktop and mobile */
 </style>
 @endpush
 
